@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { useLocaleStore } from '@/stores/localeStore';
 import { UserRole } from '@/types/models';
 
 const roles: { value: UserRole; labelKey: string; descKey: string }[] = [
@@ -14,6 +15,7 @@ const roles: { value: UserRole; labelKey: string; descKey: string }[] = [
 export default function Signup() {
   const router = useRouter();
   const { t } = useTranslation();
+  const locale = useLocaleStore((s) => s.locale);
   const [role, setRole] = useState<UserRole>('student');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,7 +41,9 @@ export default function Signup() {
       email,
       password,
       options: {
-        data: { role },
+        // The handle_new_user trigger (migration 001) reads these keys to
+        // create the profile row, so do NOT insert into profiles here.
+        data: { role, preferred_locale: locale },
       },
     });
     setLoading(false);
@@ -50,13 +54,12 @@ export default function Signup() {
     }
 
     if (data.user) {
-      // Create profile
-      await supabase.from('profiles').insert({
-        id: data.user.id,
-        role,
-        preferred_locale: 'en',
-      });
-      router.push('/auth/verify');
+      // No session => email confirmation is still required by the project.
+      if (data.session) {
+        router.replace('/onboarding');
+      } else {
+        router.push('/auth/verify');
+      }
     }
   };
 
