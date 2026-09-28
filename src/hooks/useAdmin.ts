@@ -3,18 +3,14 @@ import { supabase } from '@/lib/supabase';
 import { Profile, VerificationRequest, Report } from '@/types/models';
 
 async function fetchAdminUsers(search?: string): Promise<Profile[]> {
-  let query = supabase
-    .from('profiles')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (search) {
-    query = query.or(`full_name.ilike.%${search}%,email.ilike.%${search}%`);
-  }
-
-  const { data, error } = await query;
+  // email lives in auth.users, which PostgREST cannot select from,
+  // so admin search goes through a SECURITY DEFINER RPC that joins
+  // the two and is gated on profiles.role = 'admin'.
+  const { data, error } = await supabase.rpc('admin_search_users', {
+    search_term: search && search.trim() ? search.trim() : null,
+  });
   if (error) throw error;
-  return data || [];
+  return (data as Profile[]) || [];
 }
 
 async function fetchAdminVerifications(): Promise<VerificationRequest[]> {

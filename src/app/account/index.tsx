@@ -6,7 +6,7 @@ import { useAuthStore } from '@/stores/authStore';
 export default function AccountScreen() {
   const router = useRouter();
   const { t } = useTranslation();
-  const { profile, signOut } = useAuthStore();
+  const { profile, user, signOut } = useAuthStore();
 
   const menuItems = [
     { label: t('account.editProfile'), route: '/account/edit', icon: '✏️' },
@@ -36,7 +36,7 @@ export default function AccountScreen() {
           </View>
           <View style={styles.profileInfo}>
             <Text style={styles.profileName}>{profile?.full_name || 'User'}</Text>
-            <Text style={styles.profileEmail}>{profile?.email || ''}</Text>
+            <Text style={styles.profileEmail}>{user?.email || ''}</Text>
             {profile?.university && (
               <Text style={styles.profileUniversity}>{profile.university}</Text>
             )}
