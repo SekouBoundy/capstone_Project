@@ -111,17 +111,24 @@ export interface Product {
   seller?: Profile;
 }
 
+export type ListingKind = 'property' | 'product';
+
 export interface Conversation {
   id: string;
-  listing_type: 'property' | 'product';
+  listing_type: ListingKind;
   listing_id: string;
   participant_a: string;
   participant_b: string;
   created_at: string;
   last_message_at: string;
+  /**
+   * Body of the newest message, maintained by a database trigger
+   * (migration 013). The list renders this directly rather than
+   * embedding every thread in full.
+   */
+  last_message_body: string | null;
   listing?: Property | Product;
   other_participant?: Profile;
-  last_message?: Message;
   unread_count?: number;
 }
 

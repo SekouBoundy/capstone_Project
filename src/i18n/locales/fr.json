@@ -168,7 +168,9 @@
     "reportUser": "Signaler cet utilisateur",
     "reportReason": "Raison",
     "reportDescription": "Description",
-    "submit": "Soumettre"
+    "submit": "Soumettre",
+    "startProperty": "Dites bonjour au sujet de cette annonce",
+    "startProduct": "Dites bonjour au sujet de cette annonce"
   },
   "account": {
     "title": "Mon compte",
@@ -234,5 +236,14 @@
     "allUsers": "Tous les utilisateurs",
     "suspended": "Suspendu",
     "active": "Actif"
+  },
+  "create": {
+    "title": "Créer",
+    "subtitle": "Que souhaitez-vous publier ?",
+    "close": "Fermer",
+    "housingTitle": "Louer un logement",
+    "housingDesc": "Une chambre, un studio, un appartement ou une maison",
+    "marketTitle": "Vendre un objet",
+    "marketDesc": "Meubles, électronique, livres et plus"
   }
 }

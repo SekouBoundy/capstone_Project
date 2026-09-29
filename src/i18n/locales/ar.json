@@ -168,7 +168,9 @@
     "reportUser": "الإبلاغ عن هذا المستخدم",
     "reportReason": "السبب",
     "reportDescription": "الوصف",
-    "submit": "إرسال"
+    "submit": "إرسال",
+    "startProperty": "أرسل تحية حول هذا الإعلان",
+    "startProduct": "أرسل تحية حول هذا الإعلان"
   },
   "account": {
     "title": "حسابي",
@@ -234,5 +236,14 @@
     "allUsers": "جميع المستخدمين",
     "suspended": "معلق",
     "active": "نشط"
+  },
+  "create": {
+    "title": "إنشاء",
+    "subtitle": "ماذا تريد أن تنشر؟",
+    "close": "إغلاق",
+    "housingTitle": "تأجير مكان",
+    "housingDesc": "غرفة أو استوديو أو شقة أو منزل",
+    "marketTitle": "بيع قطعة",
+    "marketDesc": "أثاث وإلكترونيات وكتب والمزيد"
   }
 }

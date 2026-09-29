@@ -1,7 +1,8 @@
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image, ActivityIndicator } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image, ActivityIndicator, Alert } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useProperty } from '@/hooks/useProperties';
+import { useStartConversation } from '@/hooks/useConversations';
 import { useAuthStore } from '@/stores/authStore';
 import { VerifiedBadge } from '@/components/shared/VerifiedBadge';
 
@@ -11,6 +12,26 @@ export default function PropertyDetails() {
   const { t } = useTranslation();
   const { profile } = useAuthStore();
   const { data: property, isLoading } = useProperty(id);
+  const startConversation = useStartConversation();
+
+  // Declared before the early return below: hooks cannot be called
+  // conditionally, and this component bails out while loading.
+  const handleContact = async () => {
+    if (!property?.owner_id) return;
+    try {
+      const conversationId = await startConversation.mutateAsync({
+        listingType: 'property',
+        listingId: property.id,
+        ownerId: property.owner_id,
+      });
+      router.push(`/messages/${conversationId}`);
+    } catch (error) {
+      Alert.alert(
+        t('common.error'),
+        error instanceof Error ? error.message : t('common.error')
+      );
+    }
+  };
 
   if (isLoading || !property) {
     return (
@@ -21,6 +42,7 @@ export default function PropertyDetails() {
   }
 
   const isOwner = profile?.id === property.owner_id;
+  const contacting = startConversation.isPending;
 
   return (
     <View style={styles.container}>
@@ -106,9 +128,17 @@ export default function PropertyDetails() {
             <Text style={styles.editButtonText}>{t('housing.editListing')}</Text>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity style={styles.contactButton}>
+          <TouchableOpacity
+            style={styles.contactButton}
+            onPress={handleContact}
+            disabled={contacting}
+          >
             <Text style={styles.contactButtonText}>
-              {property.owner?.role === 'agency' ? t('housing.contactAgency') : t('housing.contactOwner')}
+              {contacting
+                ? t('common.loading')
+                : property.owner?.role === 'agency'
+                  ? t('housing.contactAgency')
+                  : t('housing.contactOwner')}
             </Text>
           </TouchableOpacity>
         )}

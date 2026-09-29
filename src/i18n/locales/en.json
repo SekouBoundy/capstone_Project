@@ -168,7 +168,9 @@
     "reportUser": "Report this user",
     "reportReason": "Reason",
     "reportDescription": "Description",
-    "submit": "Submit"
+    "submit": "Submit",
+    "startProperty": "Say hello about this listing",
+    "startProduct": "Say hello about this listing"
   },
   "account": {
     "title": "My Account",
@@ -234,5 +236,14 @@
     "allUsers": "All users",
     "suspended": "Suspended",
     "active": "Active"
+  },
+  "create": {
+    "title": "Create",
+    "subtitle": "What would you like to list?",
+    "close": "Close",
+    "housingTitle": "Rent out a place",
+    "housingDesc": "A room, studio, apartment or house",
+    "marketTitle": "Sell an item",
+    "marketDesc": "Furniture, electronics, books and more"
   }
 }

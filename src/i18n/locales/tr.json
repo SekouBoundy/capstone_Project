@@ -168,7 +168,9 @@
     "reportUser": "Bu kullanıcıyı bildir",
     "reportReason": "Neden",
     "reportDescription": "Açıklama",
-    "submit": "Gönder"
+    "submit": "Gönder",
+    "startProperty": "Bu ilan hakkında merhaba deyin",
+    "startProduct": "Bu ilan hakkında merhaba deyin"
   },
   "account": {
     "title": "Hesabım",
@@ -234,5 +236,14 @@
     "allUsers": "Tüm kullanıcılar",
     "suspended": "Askıda",
     "active": "Aktif"
+  },
+  "create": {
+    "title": "Oluştur",
+    "subtitle": "Ne ilan etmek istiyorsunuz?",
+    "close": "Kapat",
+    "housingTitle": "Bir yer kiraya ver",
+    "housingDesc": "Oda, stüdyo, daire veya ev",
+    "marketTitle": "Bir ürün sat",
+    "marketDesc": "Mobilya, elektronik, kitap ve daha fazlası"
   }
 }

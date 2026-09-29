@@ -1,6 +1,7 @@
 import { View, Text, FlatList, Pressable, RefreshControl, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useConversations } from '@/hooks/useConversations';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -60,6 +61,8 @@ export default function MessagesScreen() {
           renderItem={({ item }) => {
             const name = item.other_participant?.full_name;
             const unread = item.unread_count ?? 0;
+            const preview = item.last_message_body;
+            const isProperty = item.listing_type === 'property';
 
             return (
               <Pressable
@@ -75,23 +78,33 @@ export default function MessagesScreen() {
 
                 <View style={styles.rowText}>
                   <View style={styles.rowTop}>
-                    <Text style={[styles.participantName, unread > 0 && styles.unreadName]} numberOfLines={1}>
+                    <Text
+                      style={[styles.participantName, unread > 0 && styles.unreadName]}
+                      numberOfLines={1}
+                    >
                       {name ?? t('messages.title')}
                     </Text>
-                    {item.last_message ? (
-                      <Text style={styles.time}>{formatTime(item.last_message.created_at)}</Text>
-                    ) : null}
+                    <Text style={styles.time}>{formatTime(item.last_message_at)}</Text>
                   </View>
 
-                  {item.last_message ? (
+                  {preview ? (
                     <Text
                       style={[styles.lastMessage, unread > 0 && styles.unreadBody]}
                       numberOfLines={1}
                     >
-                      {item.last_message.body}
+                      {preview}
                     </Text>
                   ) : (
-                    <Text style={styles.lastMessage}>—</Text>
+                    <View style={styles.emptyThread}>
+                      <MaterialCommunityIcons
+                        name={isProperty ? 'home-plus-outline' : 'tag-plus-outline'}
+                        size={12}
+                        color={colors.textMuted}
+                      />
+                      <Text style={styles.emptyThreadText} numberOfLines={1}>
+                        {isProperty ? t('messages.startProperty') : t('messages.startProduct')}
+                      </Text>
+                    </View>
                   )}
                 </View>
 
@@ -171,6 +184,13 @@ const styles = StyleSheet.create({
   time: { ...typography.captionMuted, fontSize: 12 },
   lastMessage: { ...typography.caption, marginTop: 2 },
   unreadBody: { color: colors.text, fontWeight: '600' },
+  emptyThread: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+    marginTop: spacing.xs,
+  },
+  emptyThreadText: { ...typography.captionMuted, fontStyle: 'italic', flexShrink: 1 },
   gap: { marginTop: spacing.xs },
   badge: {
     backgroundColor: colors.primary,

@@ -1,8 +1,7 @@
-import { View, FlatList, RefreshControl, Pressable, StyleSheet } from 'react-native';
+import { View, FlatList, RefreshControl, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useProperties } from '@/hooks/useProperties';
 import { PropertyCard } from '@/components/housing/PropertyCard';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
@@ -10,7 +9,7 @@ import { SearchBar } from '@/components/ui/SearchBar';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { PropertyCardSkeleton } from '@/components/ui/Skeleton';
 import { useAuthStore } from '@/stores/authStore';
-import { colors, spacing, shadow } from '@/theme';
+import { colors, spacing } from '@/theme';
 import type { HousingFilters } from '@/types/models';
 
 const SEARCH_DEBOUNCE_MS = 350;
@@ -40,8 +39,6 @@ export default function HousingScreen() {
   }, [search, applied.search]);
 
   const canCreate = profile?.role === 'owner' || profile?.role === 'agency';
-
-  const submit = () => setApplied((prev) => ({ ...prev, search }));
 
   return (
     <View style={styles.container}>
@@ -111,17 +108,6 @@ export default function HousingScreen() {
           }
         />
       )}
-
-      {canCreate ? (
-        <Pressable
-          onPress={() => router.push('/housing/new')}
-          accessibilityRole="button"
-          accessibilityLabel={t('housing.createListing')}
-          style={({ pressed }) => [styles.fab, shadow.raised, pressed && styles.fabPressed]}
-        >
-          <MaterialCommunityIcons name="plus" size={26} color={colors.textInverse} />
-        </Pressable>
-      ) : null}
     </View>
   );
 }
@@ -144,16 +130,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.xxl,
   },
   centered: { flex: 1, justifyContent: 'center' },
-  fab: {
-    position: 'absolute',
-    bottom: spacing.xxl,
-    right: spacing.xxl,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  fabPressed: { opacity: 0.85 },
 });

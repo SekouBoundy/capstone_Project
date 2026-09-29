@@ -126,6 +126,34 @@ export const shadow = {
   }) as ViewStyle,
 };
 
-export const theme = { colors, spacing, radii, typography, shadow };
+/**
+ * Metrics for the floating dock tab bar (`components/ui/DockTabBar`).
+ *
+ * Exported so screens can position floating UI — the create-listing FABs
+ * on the housing and marketplace feeds — clear of the bar instead of
+ * guessing a magic number. `totalHeight` excludes the bottom safe-area
+ * inset; add `insets.bottom` to it.
+ */
+export const tabBarMetrics = {
+  barHeight: 62,
+  marginHorizontal: 16,
+  marginBottom: 10,
+  iconSize: 25,
+  activeSize: 44,
+  /** Outer disc of the raised centre action. */
+  fabSize: 60,
+  /** Inner white disc. */
+  fabInnerSize: 46,
+  /** How far the centre action breaks above the bar's top edge. */
+  notchRise: 20,
+  /**
+   * barHeight + marginBottom + notchRise, excluding the bottom safe-area
+   * inset. The notch term is included so lists pad clear of the bump, not
+   * just the bar.
+   */
+  totalHeight: 92,
+} as const;
+
+export const theme = { colors, spacing, radii, typography, shadow, tabBarMetrics };
 
 export type Theme = typeof theme;

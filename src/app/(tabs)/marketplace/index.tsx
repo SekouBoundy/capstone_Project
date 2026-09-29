@@ -1,15 +1,14 @@
-import { View, FlatList, RefreshControl, Pressable, StyleSheet } from 'react-native';
+import { View, FlatList, RefreshControl, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useProducts } from '@/hooks/useProducts';
 import { ProductCard } from '@/components/marketplace/ProductCard';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { ProductCardSkeleton } from '@/components/ui/Skeleton';
-import { colors, spacing, shadow } from '@/theme';
+import { colors, spacing } from '@/theme';
 import type { MarketplaceFilters } from '@/types/models';
 
 const SEARCH_DEBOUNCE_MS = 350;
@@ -105,15 +104,6 @@ export default function MarketplaceScreen() {
           }
         />
       )}
-
-      <Pressable
-        onPress={() => router.push('/marketplace/new')}
-        accessibilityRole="button"
-        accessibilityLabel={t('marketplace.createListing')}
-        style={({ pressed }) => [styles.fab, shadow.raised, pressed && styles.fabPressed]}
-      >
-        <MaterialCommunityIcons name="plus" size={26} color={colors.textInverse} />
-      </Pressable>
     </View>
   );
 }
@@ -131,16 +121,4 @@ const styles = StyleSheet.create({
   listEmpty: { flexGrow: 1, paddingHorizontal: spacing.lg },
   column: { gap: spacing.md, marginBottom: spacing.lg },
   centered: { flex: 1, justifyContent: 'center' },
-  fab: {
-    position: 'absolute',
-    bottom: spacing.xxl,
-    right: spacing.xxl,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  fabPressed: { opacity: 0.85 },
 });
