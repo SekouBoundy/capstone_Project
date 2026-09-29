@@ -204,7 +204,13 @@
     "uploadId": "Upload ID document",
     "uploadBusinessReg": "Upload business registration",
     "agencyName": "Agency name",
-    "contactPerson": "Contact person"
+    "contactPerson": "Contact person",
+    "sectionAccount": "Account",
+    "sectionActivity": "Activity",
+    "listingsShort": "Listings",
+    "productsShort": "Items",
+    "favoritesShort": "Saved",
+    "verificationNone": "Not submitted"
   },
   "admin": {
     "dashboard": "Dashboard",

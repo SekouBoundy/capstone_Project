@@ -204,7 +204,13 @@
     "uploadId": "تحميل وثيقة الهوية",
     "uploadBusinessReg": "تحميل السجل التجاري",
     "agencyName": "اسم الوكالة",
-    "contactPerson": "جهة الاتصال"
+    "contactPerson": "جهة الاتصال",
+    "sectionAccount": "الحساب",
+    "sectionActivity": "النشاط",
+    "listingsShort": "إعلانات",
+    "productsShort": "منتجات",
+    "favoritesShort": "المفضلة",
+    "verificationNone": "لم يتم التقديم"
   },
   "admin": {
     "dashboard": "لوحة التحكم",

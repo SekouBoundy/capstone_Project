@@ -204,7 +204,13 @@
     "uploadId": "Télécharger une pièce d'identité",
     "uploadBusinessReg": "Télécharger le registre du commerce",
     "agencyName": "Nom de l'agence",
-    "contactPerson": "Personne de contact"
+    "contactPerson": "Personne de contact",
+    "sectionAccount": "Compte",
+    "sectionActivity": "Activité",
+    "listingsShort": "Annonces",
+    "productsShort": "Articles",
+    "favoritesShort": "Favoris",
+    "verificationNone": "Non soumise"
   },
   "admin": {
     "dashboard": "Tableau de bord",
