@@ -4,6 +4,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Image } from 'expo-image';
 import { Property } from '@/types/models';
 import { VerifiedBadge } from '@/components/shared/VerifiedBadge';
+import { formatPrice } from '@/lib/format';
 import { colors, spacing, radii, typography, shadow } from '@/theme';
 
 interface PropertyCardProps {
@@ -21,8 +22,8 @@ export function PropertyCard({ property, onPress }: PropertyCardProps) {
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={property.title}
-      style={({ pressed }) => [styles.container, shadow.card, pressed && styles.pressed]}
+      accessibilityLabel={`${property.title}, ${formatPrice(property.price_monthly, property.currency)}`}
+      style={({ pressed }) => [styles.container, pressed && styles.pressed]}
     >
       <View style={styles.imageContainer}>
         {mainImage ? (
@@ -34,46 +35,57 @@ export function PropertyCard({ property, onPress }: PropertyCardProps) {
           />
         ) : (
           <View style={styles.imagePlaceholder}>
-            <MaterialCommunityIcons name="home-city-outline" size={34} color={colors.textMuted} />
+            <MaterialCommunityIcons name="home-city-outline" size={32} color={colors.textMuted} />
           </View>
         )}
 
-        <View style={styles.imageTopRow}>
+        {/* Gradient scrim, only behind the top row, so white overlay text
+            stays legible on a bright photo without darkening the image. */}
+        <View style={styles.scrim} pointerEvents="none" />
+
+        <View style={styles.topRow}>
           <View style={styles.typePill}>
-            <Text style={styles.typePillText}>{t(`housing.${property.property_type}`)}</Text>
+            <Text style={styles.typePillText}>
+              {t(`housing.${property.property_type}`)}
+            </Text>
           </View>
           {property.is_verified ? <VerifiedBadge /> : null}
         </View>
 
-        {!property.available ? (
-          <View style={[StyleSheet.absoluteFill, styles.unavailableOverlay]}>
-            <Text style={styles.unavailableText}>{t('common.unavailable')}</Text>
+        {photoCount > 1 ? (
+          <View style={styles.photoCount}>
+            <MaterialCommunityIcons
+              name="image-multiple"
+              size={12}
+              color={colors.textInverse}
+            />
+            <Text style={styles.photoCountText}>{photoCount}</Text>
           </View>
         ) : null}
 
-        {photoCount > 1 ? (
-          <View style={styles.photoCount}>
-            <MaterialCommunityIcons name="image-multiple" size={13} color={colors.textInverse} />
-            <Text style={styles.photoCountText}>{photoCount}</Text>
+        {!property.available ? (
+          <View style={styles.unavailableOverlay}>
+            <Text style={styles.unavailableText}>{t('common.unavailable')}</Text>
           </View>
         ) : null}
       </View>
 
-      <View style={styles.content}>
+      <View style={styles.body}>
         <Text style={styles.title} numberOfLines={1}>
           {property.title}
         </Text>
 
-        <View style={styles.priceRow}>
-          <Text style={styles.price}>{t('common.currency')}</Text>
-          <Text style={styles.priceValue}>{property.price_monthly}</Text>
-          <Text style={styles.priceUnit}>{t('common.perMonth')}</Text>
-        </View>
-
+        {/* Meta line before price: the eye reads "where / how big" first
+            and the number second. Putting price immediately under the
+            title split the two facts a user compares listings on. */}
         <View style={styles.metaRow}>
           {property.city ? (
             <>
-              <MaterialCommunityIcons name="map-marker-outline" size={14} color={colors.textMuted} />
+              <MaterialCommunityIcons
+                name="map-marker-outline"
+                size={13}
+                color={colors.textMuted}
+              />
               <Text style={styles.meta} numberOfLines={1}>
                 {property.city}
               </Text>
@@ -82,8 +94,9 @@ export function PropertyCard({ property, onPress }: PropertyCardProps) {
 
           <View style={styles.dot} />
           <Text style={styles.meta}>
-            {property.rooms} {t('common.rooms')}
+            {t('common.room', { count: property.rooms })}
           </Text>
+
           {property.area_sqm ? (
             <>
               <View style={styles.dot} />
@@ -92,12 +105,21 @@ export function PropertyCard({ property, onPress }: PropertyCardProps) {
               </Text>
             </>
           ) : null}
+
           {property.furnished ? (
-            <>
-              <View style={styles.dot} />
-              <MaterialCommunityIcons name="sofa-outline" size={14} color={colors.textMuted} />
-            </>
+            <MaterialCommunityIcons
+              name="sofa-outline"
+              size={14}
+              color={colors.textMuted}
+            />
           ) : null}
+        </View>
+
+        <View style={styles.priceRow}>
+          <Text style={styles.price}>
+            {formatPrice(property.price_monthly, property.currency)}
+          </Text>
+          <Text style={styles.period}>{t('common.perMonth')}</Text>
         </View>
       </View>
     </Pressable>
@@ -106,16 +128,19 @@ export function PropertyCard({ property, onPress }: PropertyCardProps) {
 
 const styles = StyleSheet.create({
   container: {
+    // Shadow rather than a 1px border: a border on every side draws a
+    // box around each listing and makes a vertical feed look like a
+    // stack of tables. Elevation separates the cards without that.
+    ...shadow.card,
     backgroundColor: colors.surface,
     borderRadius: radii.lg,
-    borderWidth: 1,
-    borderColor: colors.border,
     overflow: 'hidden',
-    marginBottom: spacing.lg,
+    marginBottom: spacing.xxl,
   },
-  pressed: { opacity: 0.9, transform: [{ scale: 0.995 }] },
+  pressed: { opacity: 0.92, transform: [{ scale: 0.995 }] },
+
   imageContainer: {
-    height: 172,
+    aspectRatio: 4 / 3,
     backgroundColor: colors.surfaceMuted,
   },
   image: { width: '100%', height: '100%' },
@@ -125,7 +150,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  imageTopRow: {
+  scrim: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 72,
+    backgroundColor: 'rgba(0, 0, 0, 0.18)',
+  },
+
+  topRow: {
     position: 'absolute',
     top: spacing.md,
     left: spacing.md,
@@ -135,19 +169,42 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   typePill: {
-    backgroundColor: 'rgba(0, 0, 0, 0.72)',
-    paddingHorizontal: spacing.md,
-    paddingVertical: 5,
+    backgroundColor: 'rgba(0,0,0,0.62)',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 4,
     borderRadius: radii.pill,
   },
   typePillText: {
     color: colors.textInverse,
     fontSize: 11,
     fontWeight: '600',
-    textTransform: 'capitalize',
   },
+
+  photoCount: {
+    position: 'absolute',
+    bottom: spacing.md,
+    right: spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+    backgroundColor: 'rgba(0,0,0,0.62)',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 3,
+    borderRadius: radii.pill,
+  },
+  photoCountText: {
+    color: colors.textInverse,
+    fontSize: 11,
+    fontWeight: '600',
+  },
+
   unavailableOverlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.55)',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.55)',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -157,43 +214,15 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 1,
   },
-  photoCount: {
-    position: 'absolute',
-    bottom: spacing.md,
-    right: spacing.md,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.xs,
-    backgroundColor: 'rgba(0, 0, 0, 0.72)',
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 4,
-    borderRadius: radii.pill,
-  },
-  photoCountText: {
-    color: colors.textInverse,
-    fontSize: 11,
-    fontWeight: '600',
-  },
-  content: { padding: spacing.lg },
-  title: { ...typography.heading },
-  priceRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    marginTop: spacing.xs,
-  },
-  price: { ...typography.heading, color: colors.primary, fontSize: 16 },
-  priceValue: {
-    fontSize: 21,
-    fontWeight: '700',
-    color: colors.primary,
-    marginHorizontal: 2,
-  },
-  priceUnit: { ...typography.caption },
+
+  body: { paddingHorizontal: spacing.lg, paddingTop: spacing.md, paddingBottom: spacing.lg },
+  title: { ...typography.heading, fontSize: 16 },
+
   metaRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.xs,
-    marginTop: spacing.sm,
+    marginTop: spacing.xs,
   },
   meta: { ...typography.caption, flexShrink: 1 },
   dot: {
@@ -202,4 +231,12 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     backgroundColor: colors.borderStrong,
   },
+
+  priceRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    marginTop: spacing.sm,
+  },
+  price: { fontSize: 17, fontWeight: '700', color: colors.text },
+  period: { ...typography.caption, marginLeft: 4 },
 });

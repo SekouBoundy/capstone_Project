@@ -32,7 +32,19 @@
     "active": "نشط",
     "pending": "قيد الانتظار",
     "approved": "معتمد",
-    "rejected": "مرفوض"
+    "rejected": "مرفوض",
+    "room_zero": "لا غرف",
+    "room_one": "غرفة واحدة",
+    "room_two": "غرفتان",
+    "room_few": "{count} غرف",
+    "room_many": "{count} غرفة",
+    "room_other": "{count} غرفة",
+    "bath_zero": "لا حمامات",
+    "bath_one": "حمام واحد",
+    "bath_two": "حمامان",
+    "bath_few": "{count} حمامات",
+    "bath_many": "{count} حمامًا",
+    "bath_other": "{count} حمام"
   },
   "nav": {
     "housing": "سكن",
@@ -79,7 +91,7 @@
     "skip": "تخطي في الوقت الحالي"
   },
   "housing": {
-    "title": "العنوان",
+    "title": "ابحث عن سكن",
     "subtitle": "عقارات موثقة بالقرب من جامعتك",
     "searchPlaceholder": "ابحث بالموقع، العنوان...",
     "filters": "عوامل التصفية",
@@ -123,7 +135,9 @@
     "addPhotos": "إضافة صور",
     "myListings": "إعلاناتي",
     "noListings": "لا توجد إعلانات بعد",
-    "noListingsDesc": "أنشئ إعلانك الأول للبدء"
+    "noListingsDesc": "أنشئ إعلانك الأول للبدء",
+    "filterAll": "الكل",
+    "filterAnywhere": "في كل مكان"
   },
   "marketplace": {
     "title": "السوق",

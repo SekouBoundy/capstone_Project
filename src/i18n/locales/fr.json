@@ -32,7 +32,11 @@
     "active": "Actif",
     "pending": "En attente",
     "approved": "Approuvé",
-    "rejected": "Rejeté"
+    "rejected": "Rejeté",
+    "room_one": "{count} pièce",
+    "room_other": "{count} pièces",
+    "bath_one": "{count} salle de bain",
+    "bath_other": "{count} salles de bain"
   },
   "nav": {
     "housing": "Logements",
@@ -79,7 +83,7 @@
     "skip": "Passer pour le moment"
   },
   "housing": {
-    "title": "Titre",
+    "title": "Trouver un logement",
     "subtitle": "Propriétés vérifiées près de votre campus",
     "searchPlaceholder": "Rechercher par lieu, titre...",
     "filters": "Filtres",
@@ -123,7 +127,9 @@
     "addPhotos": "Ajouter des photos",
     "myListings": "Mes annonces",
     "noListings": "Aucune annonce",
-    "noListingsDesc": "Créez votre première annonce pour commencer"
+    "noListingsDesc": "Créez votre première annonce pour commencer",
+    "filterAll": "Tous",
+    "filterAnywhere": "N'importe où"
   },
   "marketplace": {
     "title": "Marketplace",

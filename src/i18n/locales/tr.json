@@ -32,7 +32,11 @@
     "active": "Aktif",
     "pending": "Beklemede",
     "approved": "Onaylandı",
-    "rejected": "Reddedildi"
+    "rejected": "Reddedildi",
+    "room_one": "{count} oda",
+    "room_other": "{count} oda",
+    "bath_one": "{count} banyo",
+    "bath_other": "{count} banyo"
   },
   "nav": {
     "housing": "Konut",
@@ -79,7 +83,7 @@
     "skip": "Şimdilik atla"
   },
   "housing": {
-    "title": "Başlık",
+    "title": "Konut Ara",
     "subtitle": "Kampüsünüze yakın doğrulanmış mülkler",
     "searchPlaceholder": "Konum, başlığa göre ara...",
     "filters": "Filtreler",
@@ -123,7 +127,9 @@
     "addPhotos": "Fotoğraf ekle",
     "myListings": "İlanlarım",
     "noListings": "Henüz ilan yok",
-    "noListingsDesc": "Başlamak için ilk ilanınızı oluşturun"
+    "noListingsDesc": "Başlamak için ilk ilanınızı oluşturun",
+    "filterAll": "Tümü",
+    "filterAnywhere": "Her yerde"
   },
   "marketplace": {
     "title": "Pazar Yeri",

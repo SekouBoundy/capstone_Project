@@ -32,7 +32,11 @@
     "active": "Active",
     "pending": "Pending",
     "approved": "Approved",
-    "rejected": "Rejected"
+    "rejected": "Rejected",
+    "room_one": "{count} room",
+    "room_other": "{count} rooms",
+    "bath_one": "{count} bath",
+    "bath_other": "{count} baths"
   },
   "nav": {
     "housing": "Housing",
@@ -79,7 +83,7 @@
     "skip": "Skip for now"
   },
   "housing": {
-    "title": "Title",
+    "title": "Find Housing",
     "subtitle": "Verified properties near your campus",
     "searchPlaceholder": "Search by location, title...",
     "filters": "Filters",
@@ -123,7 +127,9 @@
     "addPhotos": "Add photos",
     "myListings": "My Listings",
     "noListings": "No listings yet",
-    "noListingsDesc": "Create your first listing to get started"
+    "noListingsDesc": "Create your first listing to get started",
+    "filterAll": "All",
+    "filterAnywhere": "Anywhere"
   },
   "marketplace": {
     "title": "Marketplace",

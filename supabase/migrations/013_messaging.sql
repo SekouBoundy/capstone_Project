@@ -80,17 +80,27 @@ CREATE TRIGGER on_message_written
   EXECUTE FUNCTION public.sync_conversation_last_message();
 
 -- Backfill any existing threads.
+--
+-- Uses DISTINCT ON in a derived table joined in the outer WHERE rather
+-- than a LATERAL subquery: a LATERAL in an UPDATE's FROM clause cannot
+-- correlate back to the update target, so `WHERE m.conversation_id = c.id`
+-- there fails with
+--   42P10 invalid reference to FROM-clause entry for table "c".
+-- Referencing the target from the outer WHERE is legal; from inside the
+-- subquery it is not.
 UPDATE public.conversations c
 SET
   last_message_at = latest.created_at,
   last_message_body = latest.body
-FROM LATERAL (
-  SELECT m.created_at, m.body
+FROM (
+  SELECT DISTINCT ON (m.conversation_id)
+         m.conversation_id,
+         m.created_at,
+         m.body
   FROM public.messages m
-  WHERE m.conversation_id = c.id
-  ORDER BY m.created_at DESC, m.id DESC
-  LIMIT 1
-) AS latest;
+  ORDER BY m.conversation_id, m.created_at DESC, m.id DESC
+) AS latest
+WHERE latest.conversation_id = c.id;
 
 -- ------------------------------------------------------------
 -- 3. Realtime publication
