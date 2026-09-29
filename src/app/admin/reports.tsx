@@ -37,19 +37,19 @@ export default function AdminReports() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
+  container: { flex: 1, backgroundColor: '#FFFFFF' },
   header: { paddingTop: 60, paddingHorizontal: 24, paddingBottom: 16 },
-  backButton: { fontSize: 16, color: '#2563eb', fontWeight: '500', marginBottom: 8 },
-  title: { fontSize: 24, fontWeight: 'bold', color: '#1e3a8a' },
+  backButton: { fontSize: 16, color: '#000000', fontWeight: '500', marginBottom: 8 },
+  title: { fontSize: 24, fontWeight: 'bold', color: '#000000' },
   item: {
     flexDirection: 'row', alignItems: 'center', paddingHorizontal: 24,
-    paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: '#f3f4f6',
+    paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: '#F2F2F7',
   },
   itemInfo: { flex: 1 },
-  itemReason: { fontSize: 16, fontWeight: '600', color: '#374151' },
-  itemDesc: { fontSize: 13, color: '#6b7280', marginTop: 4 },
+  itemReason: { fontSize: 16, fontWeight: '600', color: '#000000' },
+  itemDesc: { fontSize: 13, color: '#6E6E73', marginTop: 4 },
   statusBadge: { paddingHorizontal: 8, paddingVertical: 4, borderRadius: 8 },
-  open: { backgroundColor: '#fee2e2' },
-  investigating: { backgroundColor: '#fef3c7' },
-  statusText: { fontSize: 12, fontWeight: '500', color: '#374151' },
+  open: { backgroundColor: '#FFE9E7' },
+  investigating: { backgroundColor: '#FFF4E5' },
+  statusText: { fontSize: 12, fontWeight: '500', color: '#000000' },
 });

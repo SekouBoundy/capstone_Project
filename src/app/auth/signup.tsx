@@ -100,7 +100,7 @@ export default function Signup() {
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
-            placeholderTextColor="#9ca3af"
+            placeholderTextColor="#A1A1A6"
           />
           <TextInput
             style={styles.input}
@@ -108,7 +108,7 @@ export default function Signup() {
             value={password}
             onChangeText={setPassword}
             secureTextEntry
-            placeholderTextColor="#9ca3af"
+            placeholderTextColor="#A1A1A6"
           />
           <TextInput
             style={styles.input}
@@ -116,7 +116,7 @@ export default function Signup() {
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry
-            placeholderTextColor="#9ca3af"
+            placeholderTextColor="#A1A1A6"
           />
 
           <TouchableOpacity
@@ -125,7 +125,7 @@ export default function Signup() {
             disabled={loading}
           >
             {loading ? (
-              <ActivityIndicator color="#fff" />
+              <ActivityIndicator color="#FFFFFF" />
             ) : (
               <Text style={styles.primaryButtonText}>{t('auth.signup')}</Text>
             )}
@@ -146,7 +146,7 @@ export default function Signup() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
   },
   contentContainer: {
     paddingHorizontal: 24,
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     fontSize: 16,
-    color: '#2563eb',
+    color: '#000000',
     fontWeight: '500',
   },
   content: {
@@ -167,13 +167,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#1e3a8a',
+    color: '#000000',
     marginBottom: 24,
   },
   sectionLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#374151',
+    color: '#000000',
     marginBottom: 12,
   },
   roleContainer: {
@@ -183,44 +183,44 @@ const styles = StyleSheet.create({
   roleButton: {
     padding: 16,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: '#E5E5EA',
     borderRadius: 12,
   },
   roleButtonActive: {
-    borderColor: '#2563eb',
-    backgroundColor: '#eff6ff',
+    borderColor: '#000000',
+    backgroundColor: '#F2F2F7',
   },
   roleLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#374151',
+    color: '#000000',
   },
   roleLabelActive: {
-    color: '#2563eb',
+    color: '#000000',
   },
   roleDesc: {
     fontSize: 13,
-    color: '#6b7280',
+    color: '#6E6E73',
     marginTop: 4,
   },
   roleDescActive: {
-    color: '#1d4ed8',
+    color: '#000000',
   },
   form: {
     gap: 16,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: '#E5E5EA',
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 14,
     fontSize: 16,
-    color: '#374151',
-    backgroundColor: '#f9fafb',
+    color: '#000000',
+    backgroundColor: '#F2F2F7',
   },
   primaryButton: {
-    backgroundColor: '#2563eb',
+    backgroundColor: '#000000',
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   primaryButtonText: {
-    color: '#fff',
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -241,11 +241,11 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
   footerText: {
-    color: '#6b7280',
+    color: '#6E6E73',
     fontSize: 14,
   },
   linkText: {
-    color: '#2563eb',
+    color: '#000000',
     fontSize: 14,
     fontWeight: '500',
   },

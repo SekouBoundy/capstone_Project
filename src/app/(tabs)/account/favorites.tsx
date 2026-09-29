@@ -22,10 +22,10 @@ export default function Favorites() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
+  container: { flex: 1, backgroundColor: '#FFFFFF' },
   header: { paddingTop: 60, paddingHorizontal: 24, paddingBottom: 16 },
-  backButton: { fontSize: 16, color: '#2563eb', fontWeight: '500', marginBottom: 8 },
-  title: { fontSize: 24, fontWeight: 'bold', color: '#1e3a8a' },
+  backButton: { fontSize: 16, color: '#000000', fontWeight: '500', marginBottom: 8 },
+  title: { fontSize: 24, fontWeight: 'bold', color: '#000000' },
   emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  emptyText: { fontSize: 16, color: '#6b7280' },
+  emptyText: { fontSize: 16, color: '#6E6E73' },
 });

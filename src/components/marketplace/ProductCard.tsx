@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   categoryPill: {
-    backgroundColor: 'rgba(15,23,42,0.72)',
+    backgroundColor: 'rgba(0, 0, 0, 0.72)',
     paddingHorizontal: spacing.sm,
     paddingVertical: 4,
     borderRadius: radii.pill,
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   soldOverlay: {
-    backgroundColor: 'rgba(15,23,42,0.55)',
+    backgroundColor: 'rgba(0, 0, 0, 0.55)',
     alignItems: 'center',
     justifyContent: 'center',
   },

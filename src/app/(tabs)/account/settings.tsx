@@ -70,28 +70,28 @@ export default function Settings() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
+  container: { flex: 1, backgroundColor: '#FFFFFF' },
   header: { paddingTop: 60, paddingHorizontal: 24, paddingBottom: 16 },
-  backButton: { fontSize: 16, color: '#2563eb', fontWeight: '500', marginBottom: 8 },
-  title: { fontSize: 24, fontWeight: 'bold', color: '#1e3a8a' },
+  backButton: { fontSize: 16, color: '#000000', fontWeight: '500', marginBottom: 8 },
+  title: { fontSize: 24, fontWeight: 'bold', color: '#000000' },
   content: { flex: 1, paddingHorizontal: 24 },
-  sectionTitle: { fontSize: 16, fontWeight: '600', color: '#374151', marginTop: 24, marginBottom: 12 },
+  sectionTitle: { fontSize: 16, fontWeight: '600', color: '#000000', marginTop: 24, marginBottom: 12 },
   languageContainer: { gap: 8 },
   languageButton: {
-    padding: 16, borderWidth: 1, borderColor: '#e5e7eb', borderRadius: 12,
+    padding: 16, borderWidth: 1, borderColor: '#E5E5EA', borderRadius: 12,
   },
-  languageButtonActive: { borderColor: '#2563eb', backgroundColor: '#eff6ff' },
-  languageLabel: { fontSize: 16, color: '#374151' },
-  languageLabelActive: { color: '#2563eb', fontWeight: '500' },
+  languageButtonActive: { borderColor: '#000000', backgroundColor: '#F2F2F7' },
+  languageLabel: { fontSize: 16, color: '#000000' },
+  languageLabelActive: { color: '#000000', fontWeight: '500' },
   settingItem: {
     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-    paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: '#f3f4f6',
+    paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: '#F2F2F7',
   },
-  settingLabel: { fontSize: 16, color: '#374151' },
-  settingValue: { fontSize: 14, color: '#6b7280' },
+  settingLabel: { fontSize: 16, color: '#000000' },
+  settingValue: { fontSize: 14, color: '#6E6E73' },
   deleteButton: {
     paddingVertical: 16, borderRadius: 12, borderWidth: 1,
-    borderColor: '#fecaca', alignItems: 'center', marginTop: 8,
+    borderColor: '#FFC7C4', alignItems: 'center', marginTop: 8,
   },
-  deleteButtonText: { color: '#ef4444', fontSize: 16, fontWeight: '600' },
+  deleteButtonText: { color: '#FF3B30', fontSize: 16, fontWeight: '600' },
 });

@@ -57,23 +57,23 @@ export default function AdminDashboard() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
+  container: { flex: 1, backgroundColor: '#FFFFFF' },
   header: { paddingTop: 60, paddingHorizontal: 24, paddingBottom: 16 },
-  title: { fontSize: 28, fontWeight: 'bold', color: '#1e3a8a' },
+  title: { fontSize: 28, fontWeight: 'bold', color: '#000000' },
   content: { flex: 1, paddingHorizontal: 24 },
   statsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginBottom: 24 },
   statCard: {
-    width: '47%', padding: 16, backgroundColor: '#f9fafb', borderRadius: 12, alignItems: 'center',
+    width: '47%', padding: 16, backgroundColor: '#F2F2F7', borderRadius: 12, alignItems: 'center',
   },
   statIcon: { fontSize: 24, marginBottom: 8 },
-  statValue: { fontSize: 24, fontWeight: 'bold', color: '#1e3a8a' },
-  statLabel: { fontSize: 12, color: '#6b7280', marginTop: 4, textAlign: 'center' },
+  statValue: { fontSize: 24, fontWeight: 'bold', color: '#000000' },
+  statLabel: { fontSize: 12, color: '#6E6E73', marginTop: 4, textAlign: 'center' },
   menu: { gap: 0 },
   menuItem: {
     flexDirection: 'row', alignItems: 'center', paddingVertical: 16,
-    borderBottomWidth: 1, borderBottomColor: '#f3f4f6',
+    borderBottomWidth: 1, borderBottomColor: '#F2F2F7',
   },
   menuIcon: { fontSize: 20, marginRight: 12 },
-  menuLabel: { flex: 1, fontSize: 16, color: '#374151' },
-  menuArrow: { fontSize: 20, color: '#9ca3af' },
+  menuLabel: { flex: 1, fontSize: 16, color: '#000000' },
+  menuArrow: { fontSize: 20, color: '#A1A1A6' },
 });

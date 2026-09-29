@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   typePill: {
-    backgroundColor: 'rgba(15,23,42,0.72)',
+    backgroundColor: 'rgba(0, 0, 0, 0.72)',
     paddingHorizontal: spacing.md,
     paddingVertical: 5,
     borderRadius: radii.pill,
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   unavailableOverlay: {
-    backgroundColor: 'rgba(15,23,42,0.55)',
+    backgroundColor: 'rgba(0, 0, 0, 0.55)',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.xs,
-    backgroundColor: 'rgba(15,23,42,0.72)',
+    backgroundColor: 'rgba(0, 0, 0, 0.72)',
     paddingHorizontal: spacing.sm,
     paddingVertical: 4,
     borderRadius: radii.pill,

@@ -83,7 +83,7 @@ export default function EditProfile() {
           style={styles.input}
           value={form.full_name}
           onChangeText={(v) => setForm({ ...form, full_name: v })}
-          placeholderTextColor="#9ca3af"
+          placeholderTextColor="#A1A1A6"
         />
 
         <Text style={styles.label}>{t('account.phone')}</Text>
@@ -92,7 +92,7 @@ export default function EditProfile() {
           value={form.phone}
           onChangeText={(v) => setForm({ ...form, phone: v })}
           keyboardType="phone-pad"
-          placeholderTextColor="#9ca3af"
+          placeholderTextColor="#A1A1A6"
         />
 
         <Text style={styles.label}>{t('account.university')}</Text>
@@ -113,7 +113,7 @@ export default function EditProfile() {
           style={styles.input}
           value={form.faculty}
           onChangeText={(v) => setForm({ ...form, faculty: v })}
-          placeholderTextColor="#9ca3af"
+          placeholderTextColor="#A1A1A6"
         />
 
         <Text style={styles.label}>{t('account.yearOfStudy')}</Text>
@@ -121,7 +121,7 @@ export default function EditProfile() {
           style={styles.input}
           value={form.year_of_study}
           onChangeText={(v) => setForm({ ...form, year_of_study: v })}
-          placeholderTextColor="#9ca3af"
+          placeholderTextColor="#A1A1A6"
         />
       </ScrollView>
 
@@ -132,7 +132,7 @@ export default function EditProfile() {
           disabled={loading}
         >
           {loading ? (
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator color="#FFFFFF" />
           ) : (
             <Text style={styles.saveButtonText}>{t('common.save')}</Text>
           )}
@@ -143,30 +143,30 @@ export default function EditProfile() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
+  container: { flex: 1, backgroundColor: '#FFFFFF' },
   header: { paddingTop: 60, paddingHorizontal: 24, paddingBottom: 16 },
-  backButton: { fontSize: 16, color: '#2563eb', fontWeight: '500', marginBottom: 8 },
-  title: { fontSize: 24, fontWeight: 'bold', color: '#1e3a8a' },
+  backButton: { fontSize: 16, color: '#000000', fontWeight: '500', marginBottom: 8 },
+  title: { fontSize: 24, fontWeight: 'bold', color: '#000000' },
   content: { flex: 1, paddingHorizontal: 24 },
   photoSection: { alignItems: 'center', paddingVertical: 24 },
-  photoText: { color: '#2563eb', fontSize: 14, fontWeight: '500' },
-  label: { fontSize: 14, fontWeight: '600', color: '#374151', marginTop: 16, marginBottom: 8 },
+  photoText: { color: '#000000', fontSize: 14, fontWeight: '500' },
+  label: { fontSize: 14, fontWeight: '600', color: '#000000', marginTop: 16, marginBottom: 8 },
   input: {
-    borderWidth: 1, borderColor: '#e5e7eb', borderRadius: 12,
-    paddingHorizontal: 16, paddingVertical: 12, fontSize: 16, color: '#374151', backgroundColor: '#f9fafb',
+    borderWidth: 1, borderColor: '#E5E5EA', borderRadius: 12,
+    paddingHorizontal: 16, paddingVertical: 12, fontSize: 16, color: '#000000', backgroundColor: '#F2F2F7',
   },
   chipContainer: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   chip: {
     paddingHorizontal: 12, paddingVertical: 6, borderRadius: 16,
-    borderWidth: 1, borderColor: '#e5e7eb', backgroundColor: '#fff',
+    borderWidth: 1, borderColor: '#E5E5EA', backgroundColor: '#FFFFFF',
   },
-  chipActive: { borderColor: '#2563eb', backgroundColor: '#eff6ff' },
-  chipText: { fontSize: 13, color: '#374151' },
-  chipTextActive: { color: '#2563eb', fontWeight: '500' },
-  footer: { padding: 24, borderTopWidth: 1, borderTopColor: '#e5e7eb' },
+  chipActive: { borderColor: '#000000', backgroundColor: '#F2F2F7' },
+  chipText: { fontSize: 13, color: '#000000' },
+  chipTextActive: { color: '#000000', fontWeight: '500' },
+  footer: { padding: 24, borderTopWidth: 1, borderTopColor: '#E5E5EA' },
   saveButton: {
-    backgroundColor: '#2563eb', paddingVertical: 16, borderRadius: 12, alignItems: 'center',
+    backgroundColor: '#000000', paddingVertical: 16, borderRadius: 12, alignItems: 'center',
   },
   disabledButton: { opacity: 0.6 },
-  saveButtonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  saveButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '600' },
 });

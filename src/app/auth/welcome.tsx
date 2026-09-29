@@ -62,7 +62,7 @@ export default function Welcome() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: 24,
     justifyContent: 'space-between',
   },
@@ -74,13 +74,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#1e3a8a',
+    color: '#000000',
     marginBottom: 8,
     textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
-    color: '#6b7280',
+    color: '#6E6E73',
     textAlign: 'center',
     marginBottom: 48,
   },
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: '#E5E5EA',
     borderRadius: 12,
     gap: 12,
   },
@@ -103,20 +103,20 @@ const styles = StyleSheet.create({
   languageLabel: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#374151',
+    color: '#000000',
   },
   footer: {
     paddingBottom: 48,
     gap: 12,
   },
   primaryButton: {
-    backgroundColor: '#2563eb',
+    backgroundColor: '#000000',
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
   },
   primaryButtonText: {
-    color: '#fff',
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -125,10 +125,10 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: '#E5E5EA',
   },
   secondaryButtonText: {
-    color: '#374151',
+    color: '#000000',
     fontSize: 16,
     fontWeight: '600',
   },

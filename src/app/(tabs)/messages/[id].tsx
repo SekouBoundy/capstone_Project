@@ -85,7 +85,7 @@ export default function ChatScreen() {
           value={newMessage}
           onChangeText={setNewMessage}
           placeholder={t('messages.typeMessage')}
-          placeholderTextColor="#9ca3af"
+          placeholderTextColor="#A1A1A6"
           multiline
         />
         <TouchableOpacity
@@ -101,41 +101,41 @@ export default function ChatScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
+  container: { flex: 1, backgroundColor: '#FFFFFF' },
   header: {
     paddingTop: 60, paddingHorizontal: 24, paddingBottom: 16,
-    borderBottomWidth: 1, borderBottomColor: '#f3f4f6',
+    borderBottomWidth: 1, borderBottomColor: '#F2F2F7',
   },
-  headerTitle: { fontSize: 18, fontWeight: '600', color: '#374151' },
+  headerTitle: { fontSize: 18, fontWeight: '600', color: '#000000' },
   messagesList: { padding: 16, flexGrow: 1 },
   messageBubble: {
     maxWidth: '80%', padding: 12, borderRadius: 16, marginBottom: 8,
   },
   myMessage: {
-    alignSelf: 'flex-end', backgroundColor: '#2563eb', borderBottomRightRadius: 4,
+    alignSelf: 'flex-end', backgroundColor: '#000000', borderBottomRightRadius: 4,
   },
   theirMessage: {
-    alignSelf: 'flex-start', backgroundColor: '#f3f4f6', borderBottomLeftRadius: 4,
+    alignSelf: 'flex-start', backgroundColor: '#F2F2F7', borderBottomLeftRadius: 4,
   },
   messageText: { fontSize: 15, lineHeight: 20 },
-  myMessageText: { color: '#fff' },
-  theirMessageText: { color: '#374151' },
+  myMessageText: { color: '#FFFFFF' },
+  theirMessageText: { color: '#000000' },
   messageTime: { fontSize: 11, marginTop: 4 },
   myMessageTime: { color: 'rgba(255,255,255,0.7)' },
-  theirMessageTime: { color: '#9ca3af' },
+  theirMessageTime: { color: '#A1A1A6' },
   inputContainer: {
-    flexDirection: 'row', padding: 12, borderTopWidth: 1, borderTopColor: '#f3f4f6',
+    flexDirection: 'row', padding: 12, borderTopWidth: 1, borderTopColor: '#F2F2F7',
     alignItems: 'flex-end', gap: 8,
   },
   input: {
-    flex: 1, borderWidth: 1, borderColor: '#e5e7eb', borderRadius: 20,
-    paddingHorizontal: 16, paddingVertical: 10, fontSize: 15, color: '#374151',
+    flex: 1, borderWidth: 1, borderColor: '#E5E5EA', borderRadius: 20,
+    paddingHorizontal: 16, paddingVertical: 10, fontSize: 15, color: '#000000',
     maxHeight: 100,
   },
   sendButton: {
-    backgroundColor: '#2563eb', paddingHorizontal: 20, paddingVertical: 10,
+    backgroundColor: '#000000', paddingHorizontal: 20, paddingVertical: 10,
     borderRadius: 20, justifyContent: 'center',
   },
   sendButtonDisabled: { opacity: 0.5 },
-  sendButtonText: { color: '#fff', fontSize: 14, fontWeight: '600' },
+  sendButtonText: { color: '#FFFFFF', fontSize: 14, fontWeight: '600' },
 });

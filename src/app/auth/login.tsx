@@ -51,7 +51,7 @@ export default function Login() {
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
-            placeholderTextColor="#9ca3af"
+            placeholderTextColor="#A1A1A6"
           />
           <TextInput
             style={styles.input}
@@ -59,7 +59,7 @@ export default function Login() {
             value={password}
             onChangeText={setPassword}
             secureTextEntry
-            placeholderTextColor="#9ca3af"
+            placeholderTextColor="#A1A1A6"
           />
 
           <TouchableOpacity onPress={() => router.push('/auth/forgot')}>
@@ -72,7 +72,7 @@ export default function Login() {
             disabled={loading}
           >
             {loading ? (
-              <ActivityIndicator color="#fff" />
+              <ActivityIndicator color="#FFFFFF" />
             ) : (
               <Text style={styles.primaryButtonText}>{t('auth.login')}</Text>
             )}
@@ -93,7 +93,7 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: 24,
   },
   header: {
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     fontSize: 16,
-    color: '#2563eb',
+    color: '#000000',
     fontWeight: '500',
   },
   content: {
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#1e3a8a',
+    color: '#000000',
     marginBottom: 32,
   },
   form: {
@@ -119,21 +119,21 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: '#E5E5EA',
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 14,
     fontSize: 16,
-    color: '#374151',
-    backgroundColor: '#f9fafb',
+    color: '#000000',
+    backgroundColor: '#F2F2F7',
   },
   forgotLink: {
-    color: '#2563eb',
+    color: '#000000',
     fontSize: 14,
     textAlign: 'right',
   },
   primaryButton: {
-    backgroundColor: '#2563eb',
+    backgroundColor: '#000000',
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   primaryButtonText: {
-    color: '#fff',
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -154,11 +154,11 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
   footerText: {
-    color: '#6b7280',
+    color: '#6E6E73',
     fontSize: 14,
   },
   linkText: {
-    color: '#2563eb',
+    color: '#000000',
     fontSize: 14,
     fontWeight: '500',
   },

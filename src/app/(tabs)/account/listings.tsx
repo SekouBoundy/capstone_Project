@@ -48,13 +48,13 @@ export default function MyListings() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
+  container: { flex: 1, backgroundColor: '#FFFFFF' },
   loaderContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   header: { paddingTop: 60, paddingHorizontal: 24, paddingBottom: 16 },
-  backButton: { fontSize: 16, color: '#2563eb', fontWeight: '500', marginBottom: 8 },
-  title: { fontSize: 24, fontWeight: 'bold', color: '#1e3a8a' },
+  backButton: { fontSize: 16, color: '#000000', fontWeight: '500', marginBottom: 8 },
+  title: { fontSize: 24, fontWeight: 'bold', color: '#000000' },
   list: { paddingHorizontal: 24, paddingBottom: 24 },
   emptyContainer: { alignItems: 'center', paddingTop: 48 },
-  emptyText: { fontSize: 18, fontWeight: '600', color: '#374151', marginBottom: 8 },
-  emptyDesc: { fontSize: 14, color: '#6b7280', textAlign: 'center' },
+  emptyText: { fontSize: 18, fontWeight: '600', color: '#000000', marginBottom: 8 },
+  emptyDesc: { fontSize: 14, color: '#6E6E73', textAlign: 'center' },
 });

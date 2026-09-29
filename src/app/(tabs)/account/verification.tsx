@@ -85,7 +85,7 @@ export default function Verification() {
               style={styles.input}
               value={form.agency_name}
               onChangeText={(v) => setForm({ ...form, agency_name: v })}
-              placeholderTextColor="#9ca3af"
+              placeholderTextColor="#A1A1A6"
             />
 
             <Text style={styles.label}>{t('account.contactPerson')}</Text>
@@ -93,7 +93,7 @@ export default function Verification() {
               style={styles.input}
               value={form.contact_person}
               onChangeText={(v) => setForm({ ...form, contact_person: v })}
-              placeholderTextColor="#9ca3af"
+              placeholderTextColor="#A1A1A6"
             />
 
             <Text style={styles.label}>{t('account.uploadBusinessReg')}</Text>
@@ -120,7 +120,7 @@ export default function Verification() {
           disabled={loading}
         >
           {loading ? (
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator color="#FFFFFF" />
           ) : (
             <Text style={styles.submitButtonText}>{t('account.submitVerification')}</Text>
           )}
@@ -131,28 +131,28 @@ export default function Verification() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
+  container: { flex: 1, backgroundColor: '#FFFFFF' },
   header: { paddingTop: 60, paddingHorizontal: 24, paddingBottom: 16 },
-  backButton: { fontSize: 16, color: '#2563eb', fontWeight: '500', marginBottom: 8 },
-  title: { fontSize: 24, fontWeight: 'bold', color: '#1e3a8a' },
+  backButton: { fontSize: 16, color: '#000000', fontWeight: '500', marginBottom: 8 },
+  title: { fontSize: 24, fontWeight: 'bold', color: '#000000' },
   content: { flex: 1, paddingHorizontal: 24 },
-  sectionTitle: { fontSize: 18, fontWeight: '600', color: '#374151', marginBottom: 16 },
-  label: { fontSize: 14, fontWeight: '600', color: '#374151', marginTop: 16, marginBottom: 8 },
+  sectionTitle: { fontSize: 18, fontWeight: '600', color: '#000000', marginBottom: 16 },
+  label: { fontSize: 14, fontWeight: '600', color: '#000000', marginTop: 16, marginBottom: 8 },
   input: {
-    borderWidth: 1, borderColor: '#e5e7eb', borderRadius: 12,
-    paddingHorizontal: 16, paddingVertical: 12, fontSize: 16, color: '#374151', backgroundColor: '#f9fafb',
+    borderWidth: 1, borderColor: '#E5E5EA', borderRadius: 12,
+    paddingHorizontal: 16, paddingVertical: 12, fontSize: 16, color: '#000000', backgroundColor: '#F2F2F7',
   },
   uploadButton: {
-    borderWidth: 1, borderColor: '#e5e7eb', borderRadius: 12, borderStyle: 'dashed',
+    borderWidth: 1, borderColor: '#E5E5EA', borderRadius: 12, borderStyle: 'dashed',
     paddingVertical: 24, alignItems: 'center',
   },
-  uploadButtonText: { color: '#2563eb', fontSize: 14, fontWeight: '500' },
-  footer: { padding: 24, borderTopWidth: 1, borderTopColor: '#e5e7eb' },
+  uploadButtonText: { color: '#000000', fontSize: 14, fontWeight: '500' },
+  footer: { padding: 24, borderTopWidth: 1, borderTopColor: '#E5E5EA' },
   submitButton: {
-    backgroundColor: '#2563eb', paddingVertical: 16, borderRadius: 12, alignItems: 'center',
+    backgroundColor: '#000000', paddingVertical: 16, borderRadius: 12, alignItems: 'center',
   },
   disabledButton: { opacity: 0.6 },
-  submitButtonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  submitButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '600' },
   emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  emptyText: { fontSize: 16, color: '#6b7280', textAlign: 'center' },
+  emptyText: { fontSize: 16, color: '#6E6E73', textAlign: 'center' },
 });

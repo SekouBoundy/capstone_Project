@@ -39,20 +39,20 @@ export default function AdminVerifications() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
+  container: { flex: 1, backgroundColor: '#FFFFFF' },
   header: { paddingTop: 60, paddingHorizontal: 24, paddingBottom: 16 },
-  backButton: { fontSize: 16, color: '#2563eb', fontWeight: '500', marginBottom: 8 },
-  title: { fontSize: 24, fontWeight: 'bold', color: '#1e3a8a' },
+  backButton: { fontSize: 16, color: '#000000', fontWeight: '500', marginBottom: 8 },
+  title: { fontSize: 24, fontWeight: 'bold', color: '#000000' },
   item: {
     flexDirection: 'row', alignItems: 'center', paddingHorizontal: 24,
-    paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: '#f3f4f6',
+    paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: '#F2F2F7',
   },
   itemInfo: { flex: 1 },
-  itemName: { fontSize: 16, fontWeight: '600', color: '#374151' },
-  itemType: { fontSize: 13, color: '#6b7280', marginTop: 2 },
+  itemName: { fontSize: 16, fontWeight: '600', color: '#000000' },
+  itemType: { fontSize: 13, color: '#6E6E73', marginTop: 2 },
   statusBadge: { paddingHorizontal: 8, paddingVertical: 4, borderRadius: 8 },
-  approved: { backgroundColor: '#d1fae5' },
-  rejected: { backgroundColor: '#fee2e2' },
-  pending: { backgroundColor: '#fef3c7' },
-  statusText: { fontSize: 12, fontWeight: '500', color: '#374151' },
+  approved: { backgroundColor: '#E8F8EE' },
+  rejected: { backgroundColor: '#FFE9E7' },
+  pending: { backgroundColor: '#FFF4E5' },
+  statusText: { fontSize: 12, fontWeight: '500', color: '#000000' },
 });

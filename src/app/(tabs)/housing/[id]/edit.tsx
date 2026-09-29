@@ -70,7 +70,7 @@ export default function EditHousing() {
           style={styles.input}
           value={form.title}
           onChangeText={(v) => setForm({ ...form, title: v })}
-          placeholderTextColor="#9ca3af"
+          placeholderTextColor="#A1A1A6"
         />
 
         <Text style={styles.label}>{t('housing.description')}</Text>
@@ -80,7 +80,7 @@ export default function EditHousing() {
           onChangeText={(v) => setForm({ ...form, description: v })}
           multiline
           numberOfLines={4}
-          placeholderTextColor="#9ca3af"
+          placeholderTextColor="#A1A1A6"
         />
 
         <Text style={styles.label}>{t('housing.price')}</Text>
@@ -89,7 +89,7 @@ export default function EditHousing() {
           value={form.price_monthly}
           onChangeText={(v) => setForm({ ...form, price_monthly: v })}
           keyboardType="numeric"
-          placeholderTextColor="#9ca3af"
+          placeholderTextColor="#A1A1A6"
         />
 
         <TouchableOpacity
@@ -110,7 +110,7 @@ export default function EditHousing() {
           disabled={loading}
         >
           {loading ? (
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator color="#FFFFFF" />
           ) : (
             <Text style={styles.submitButtonText}>{t('common.save')}</Text>
           )}
@@ -121,36 +121,36 @@ export default function EditHousing() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
+  container: { flex: 1, backgroundColor: '#FFFFFF' },
   loaderContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   header: { paddingTop: 60, paddingHorizontal: 24, paddingBottom: 16 },
-  backButton: { fontSize: 16, color: '#2563eb', fontWeight: '500', marginBottom: 8 },
-  title: { fontSize: 24, fontWeight: 'bold', color: '#1e3a8a' },
+  backButton: { fontSize: 16, color: '#000000', fontWeight: '500', marginBottom: 8 },
+  title: { fontSize: 24, fontWeight: 'bold', color: '#000000' },
   content: { flex: 1, paddingHorizontal: 24 },
-  label: { fontSize: 14, fontWeight: '600', color: '#374151', marginTop: 16, marginBottom: 8 },
+  label: { fontSize: 14, fontWeight: '600', color: '#000000', marginTop: 16, marginBottom: 8 },
   input: {
-    borderWidth: 1, borderColor: '#e5e7eb', borderRadius: 12,
-    paddingHorizontal: 16, paddingVertical: 12, fontSize: 16, color: '#374151', backgroundColor: '#f9fafb',
+    borderWidth: 1, borderColor: '#E5E5EA', borderRadius: 12,
+    paddingHorizontal: 16, paddingVertical: 12, fontSize: 16, color: '#000000', backgroundColor: '#F2F2F7',
   },
   textArea: { height: 100, textAlignVertical: 'top' },
   toggleRow: {
     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
     marginTop: 24, paddingVertical: 12,
   },
-  toggleLabel: { fontSize: 16, color: '#374151' },
+  toggleLabel: { fontSize: 16, color: '#000000' },
   toggle: {
-    width: 48, height: 28, borderRadius: 14, backgroundColor: '#e5e7eb',
+    width: 48, height: 28, borderRadius: 14, backgroundColor: '#E5E5EA',
     justifyContent: 'center', paddingHorizontal: 2,
   },
-  toggleActive: { backgroundColor: '#2563eb' },
+  toggleActive: { backgroundColor: '#000000' },
   toggleThumb: {
-    width: 24, height: 24, borderRadius: 12, backgroundColor: '#fff',
+    width: 24, height: 24, borderRadius: 12, backgroundColor: '#FFFFFF',
   },
   toggleThumbActive: { alignSelf: 'flex-end' },
-  footer: { padding: 24, borderTopWidth: 1, borderTopColor: '#e5e7eb' },
+  footer: { padding: 24, borderTopWidth: 1, borderTopColor: '#E5E5EA' },
   submitButton: {
-    backgroundColor: '#2563eb', paddingVertical: 16, borderRadius: 12, alignItems: 'center',
+    backgroundColor: '#000000', paddingVertical: 16, borderRadius: 12, alignItems: 'center',
   },
   disabledButton: { opacity: 0.6 },
-  submitButtonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  submitButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '600' },
 });

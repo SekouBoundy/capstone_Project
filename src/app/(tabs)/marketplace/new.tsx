@@ -78,7 +78,7 @@ export default function NewProduct() {
           value={form.title}
           onChangeText={(v) => setForm({ ...form, title: v })}
           placeholder="e.g. IKEA Desk"
-          placeholderTextColor="#9ca3af"
+          placeholderTextColor="#A1A1A6"
         />
 
         <Text style={styles.label}>{t('housing.description')}</Text>
@@ -88,7 +88,7 @@ export default function NewProduct() {
           onChangeText={(v) => setForm({ ...form, description: v })}
           multiline
           numberOfLines={4}
-          placeholderTextColor="#9ca3af"
+          placeholderTextColor="#A1A1A6"
         />
 
         <Text style={styles.label}>{t('marketplace.category')}</Text>
@@ -128,7 +128,7 @@ export default function NewProduct() {
           onChangeText={(v) => setForm({ ...form, price: v })}
           keyboardType="numeric"
           placeholder="50"
-          placeholderTextColor="#9ca3af"
+          placeholderTextColor="#A1A1A6"
         />
 
         <Text style={styles.label}>{t('housing.city')}</Text>
@@ -157,7 +157,7 @@ export default function NewProduct() {
           disabled={loading}
         >
           {loading ? (
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator color="#FFFFFF" />
           ) : (
             <Text style={styles.submitButtonText}>{t('marketplace.createListing')}</Text>
           )}
@@ -168,34 +168,34 @@ export default function NewProduct() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
+  container: { flex: 1, backgroundColor: '#FFFFFF' },
   header: { paddingTop: 60, paddingHorizontal: 24, paddingBottom: 16 },
-  backButton: { fontSize: 16, color: '#2563eb', fontWeight: '500', marginBottom: 8 },
-  title: { fontSize: 24, fontWeight: 'bold', color: '#1e3a8a' },
+  backButton: { fontSize: 16, color: '#000000', fontWeight: '500', marginBottom: 8 },
+  title: { fontSize: 24, fontWeight: 'bold', color: '#000000' },
   content: { flex: 1, paddingHorizontal: 24 },
-  label: { fontSize: 14, fontWeight: '600', color: '#374151', marginTop: 16, marginBottom: 8 },
+  label: { fontSize: 14, fontWeight: '600', color: '#000000', marginTop: 16, marginBottom: 8 },
   input: {
-    borderWidth: 1, borderColor: '#e5e7eb', borderRadius: 12,
-    paddingHorizontal: 16, paddingVertical: 12, fontSize: 16, color: '#374151', backgroundColor: '#f9fafb',
+    borderWidth: 1, borderColor: '#E5E5EA', borderRadius: 12,
+    paddingHorizontal: 16, paddingVertical: 12, fontSize: 16, color: '#000000', backgroundColor: '#F2F2F7',
   },
   textArea: { height: 100, textAlignVertical: 'top' },
   chipContainer: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   chip: {
     paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20,
-    borderWidth: 1, borderColor: '#e5e7eb', backgroundColor: '#fff',
+    borderWidth: 1, borderColor: '#E5E5EA', backgroundColor: '#FFFFFF',
   },
-  chipActive: { borderColor: '#2563eb', backgroundColor: '#eff6ff' },
-  chipText: { fontSize: 14, color: '#374151' },
-  chipTextActive: { color: '#2563eb', fontWeight: '500' },
+  chipActive: { borderColor: '#000000', backgroundColor: '#F2F2F7' },
+  chipText: { fontSize: 14, color: '#000000' },
+  chipTextActive: { color: '#000000', fontWeight: '500' },
   photoButton: {
-    borderWidth: 1, borderColor: '#e5e7eb', borderRadius: 12, borderStyle: 'dashed',
+    borderWidth: 1, borderColor: '#E5E5EA', borderRadius: 12, borderStyle: 'dashed',
     paddingVertical: 24, alignItems: 'center',
   },
-  photoButtonText: { color: '#2563eb', fontSize: 14, fontWeight: '500' },
-  footer: { padding: 24, borderTopWidth: 1, borderTopColor: '#e5e7eb' },
+  photoButtonText: { color: '#000000', fontSize: 14, fontWeight: '500' },
+  footer: { padding: 24, borderTopWidth: 1, borderTopColor: '#E5E5EA' },
   submitButton: {
-    backgroundColor: '#2563eb', paddingVertical: 16, borderRadius: 12, alignItems: 'center',
+    backgroundColor: '#000000', paddingVertical: 16, borderRadius: 12, alignItems: 'center',
   },
   disabledButton: { opacity: 0.6 },
-  submitButtonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  submitButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '600' },
 });

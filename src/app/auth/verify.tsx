@@ -37,7 +37,7 @@ export default function Verify() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: 24,
     justifyContent: 'center',
   },
@@ -51,19 +51,19 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#1e3a8a',
+    color: '#000000',
     marginBottom: 12,
     textAlign: 'center',
   },
   description: {
     fontSize: 16,
-    color: '#6b7280',
+    color: '#6E6E73',
     textAlign: 'center',
     marginBottom: 32,
     lineHeight: 24,
   },
   primaryButton: {
-    backgroundColor: '#2563eb',
+    backgroundColor: '#000000',
     paddingVertical: 16,
     paddingHorizontal: 32,
     borderRadius: 12,
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   primaryButtonText: {
-    color: '#fff',
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -83,10 +83,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: '#E5E5EA',
   },
   secondaryButtonText: {
-    color: '#374151',
+    color: '#000000',
     fontSize: 16,
     fontWeight: '600',
   },
