@@ -34,6 +34,12 @@
     "approved": "Approved",
     "rejected": "Rejected"
   },
+  "nav": {
+    "housing": "Housing",
+    "marketplace": "Market",
+    "messages": "Messages",
+    "account": "Account"
+  },
   "auth": {
     "welcome": "Welcome to DOUCSOFT",
     "welcomeSubtitle": "Housing & Marketplace for International Students",
@@ -73,7 +79,7 @@
     "skip": "Skip for now"
   },
   "housing": {
-    "title": "Find Housing",
+    "title": "Title",
     "subtitle": "Verified properties near your campus",
     "searchPlaceholder": "Search by location, title...",
     "filters": "Filters",
@@ -99,7 +105,6 @@
     "deleteListing": "Delete listing",
     "createListing": "Create Listing",
     "editListingTitle": "Edit Listing",
-    "title": "Title",
     "price": "Monthly rent",
     "propertyTypeLabel": "Property type",
     "apartment": "Apartment",

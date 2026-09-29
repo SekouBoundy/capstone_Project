@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { PROFILE_PUBLIC_COLUMNS } from '@/lib/profileColumns';
 import { useAuthStore } from '@/stores/authStore';
 import { UNIVERSITIES } from '@/lib/constants';
 import * as ImagePicker from 'expo-image-picker';
@@ -41,7 +42,7 @@ export default function EditProfile() {
       .from('profiles')
       .update(form)
       .eq('id', profile!.id)
-      .select()
+      .select(PROFILE_PUBLIC_COLUMNS)
       .single();
 
     if (!error && data) {

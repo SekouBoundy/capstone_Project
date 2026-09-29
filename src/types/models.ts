@@ -20,6 +20,14 @@ export interface Profile {
   id: string;
   role: UserRole;
   full_name: string;
+  /**
+   * Never returned by `supabase.from('profiles').select(...)`: the column
+   * exists in the table but column-level grants withhold it from the
+   * anon/authenticated roles (migration 012). Only the admin-gated
+   * admin_search_users() RPC populates it, so it is optional here.
+   *
+   * A user's own address comes from the auth session (user.email).
+   */
   email?: string;
   phone: string | null;
   avatar_url: string | null;

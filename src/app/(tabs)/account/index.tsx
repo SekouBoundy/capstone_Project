@@ -1,101 +1,215 @@
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { Image } from 'expo-image';
 import { useAuthStore } from '@/stores/authStore';
+import { ScreenHeader } from '@/components/ui/ScreenHeader';
+import { colors, spacing, radii, typography, shadow } from '@/theme';
+
+type IconName = React.ComponentProps<typeof MaterialCommunityIcons>['name'];
 
 export default function AccountScreen() {
   const router = useRouter();
   const { t } = useTranslation();
   const { profile, user, signOut } = useAuthStore();
 
-  const menuItems = [
-    { label: t('account.editProfile'), route: '/account/edit', icon: '✏️' },
-    { label: t('account.listings'), route: '/account/listings', icon: '🏠' },
-    { label: t('account.products'), route: '/account/products', icon: '📦' },
-    { label: t('account.favorites'), route: '/account/favorites', icon: '❤️' },
-    { label: t('account.verification'), route: '/account/verification', icon: '✅' },
-    { label: t('account.settings'), route: '/account/settings', icon: '⚙️' },
+  const isAdmin = profile?.role === 'admin';
+
+  const menuItems: { label: string; route: string; icon: IconName }[] = [
+    { label: t('account.editProfile'), route: '/account/edit', icon: 'account-edit-outline' },
+    { label: t('account.listings'), route: '/account/listings', icon: 'home-city-outline' },
+    { label: t('account.products'), route: '/account/products', icon: 'tag-outline' },
+    { label: t('account.favorites'), route: '/account/favorites', icon: 'heart-outline' },
+    { label: t('account.verification'), route: '/account/verification', icon: 'shield-check-outline' },
+    { label: t('account.settings'), route: '/account/settings', icon: 'cog-outline' },
   ];
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <View style={styles.header}>
-          <Text style={styles.title}>{t('account.title')}</Text>
-        </View>
+      <ScreenHeader title={t('account.title')} />
 
-        <View style={styles.profileCard}>
-          <View style={styles.avatar}>
+      <ScrollView
+        contentContainerStyle={styles.scroll}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.card}>
+          <View style={styles.identity}>
             {profile?.avatar_url ? (
-              <Image source={{ uri: profile.avatar_url }} style={styles.avatarImage} />
+              <Image
+                source={{ uri: profile.avatar_url }}
+                style={styles.avatar}
+                contentFit="cover"
+                transition={200}
+              />
             ) : (
-              <Text style={styles.avatarText}>
-                {profile?.full_name?.[0] || '?'}
+              <View style={styles.avatar}>
+                <Text style={styles.avatarText}>
+                  {(profile?.full_name?.[0] ?? '?').toUpperCase()}
+                </Text>
+              </View>
+            )}
+
+            <View style={styles.identityText}>
+              <Text style={styles.name} numberOfLines={1}>
+                {profile?.full_name || t('account.name')}
               </Text>
-            )}
+              <Text style={styles.email} numberOfLines={1}>
+                {user?.email ?? ''}
+              </Text>
+              {profile?.university ? (
+                <Text style={styles.meta} numberOfLines={1}>
+                  {profile.university}
+                </Text>
+              ) : null}
+            </View>
           </View>
-          <View style={styles.profileInfo}>
-            <Text style={styles.profileName}>{profile?.full_name || 'User'}</Text>
-            <Text style={styles.profileEmail}>{user?.email || ''}</Text>
-            {profile?.university && (
-              <Text style={styles.profileUniversity}>{profile.university}</Text>
-            )}
-          </View>
+
+          <Pressable
+            onPress={() => router.push('/account/edit')}
+            accessibilityRole="button"
+            style={({ pressed }) => [styles.editButton, pressed && styles.pressed]}
+          >
+            <Text style={styles.editButtonText}>{t('account.editProfile')}</Text>
+          </Pressable>
         </View>
 
-        <View style={styles.menu}>
+        <View style={styles.group}>
           {menuItems.map((item) => (
-            <TouchableOpacity
+            <Pressable
               key={item.route}
-              style={styles.menuItem}
-              onPress={() => router.push(item.route as any)}
+              onPress={() => router.push(item.route as never)}
+              accessibilityRole="button"
+              style={({ pressed }) => [styles.menuItem, pressed && styles.pressed]}
             >
-              <Text style={styles.menuIcon}>{item.icon}</Text>
+              <View style={styles.menuIcon}>
+                <MaterialCommunityIcons name={item.icon} size={19} color={colors.primary} />
+              </View>
               <Text style={styles.menuLabel}>{item.label}</Text>
-              <Text style={styles.menuArrow}>›</Text>
-            </TouchableOpacity>
+              <MaterialCommunityIcons
+                name="chevron-right"
+                size={20}
+                color={colors.textMuted}
+              />
+            </Pressable>
           ))}
         </View>
 
-        <TouchableOpacity style={styles.logoutButton} onPress={signOut}>
+        {isAdmin ? (
+          <Pressable
+            onPress={() => router.push('/admin')}
+            accessibilityRole="button"
+            style={({ pressed }) => [styles.adminRow, pressed && styles.pressed]}
+          >
+            <View style={[styles.menuIcon, styles.adminIcon]}>
+              <MaterialCommunityIcons name="shield-crown-outline" size={19} color={colors.warning} />
+            </View>
+            <Text style={styles.menuLabel}>{t('admin.dashboard')}</Text>
+            <MaterialCommunityIcons name="chevron-right" size={20} color={colors.textMuted} />
+          </Pressable>
+        ) : null}
+
+        <Pressable
+          onPress={signOut}
+          accessibilityRole="button"
+          style={({ pressed }) => [styles.logoutButton, pressed && styles.pressed]}
+        >
+          <MaterialCommunityIcons name="logout" size={18} color={colors.danger} />
           <Text style={styles.logoutText}>{t('auth.logout')}</Text>
-        </TouchableOpacity>
+        </Pressable>
       </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
-  header: { paddingTop: 60, paddingHorizontal: 24, paddingBottom: 16 },
-  title: { fontSize: 28, fontWeight: 'bold', color: '#1e3a8a' },
-  profileCard: {
-    flexDirection: 'row', alignItems: 'center', paddingHorizontal: 24,
-    paddingVertical: 16, marginHorizontal: 24, marginBottom: 16,
-    backgroundColor: '#f9fafb', borderRadius: 16,
+  container: { flex: 1, backgroundColor: colors.background },
+  scroll: { paddingHorizontal: spacing.xxl, paddingBottom: spacing.xxxl },
+
+  card: {
+    ...shadow.card,
+    backgroundColor: colors.surface,
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.lg,
+    marginBottom: spacing.xl,
   },
+  identity: { flexDirection: 'row', alignItems: 'center' },
   avatar: {
-    width: 64, height: 64, borderRadius: 32, backgroundColor: '#eff6ff',
-    justifyContent: 'center', alignItems: 'center', marginRight: 16,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: colors.primaryLight,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: spacing.lg,
   },
-  avatarImage: { width: 64, height: 64, borderRadius: 32 },
-  avatarText: { fontSize: 24, fontWeight: '600', color: '#2563eb' },
-  profileInfo: { flex: 1 },
-  profileName: { fontSize: 18, fontWeight: '600', color: '#374151' },
-  profileEmail: { fontSize: 14, color: '#6b7280', marginTop: 2 },
-  profileUniversity: { fontSize: 13, color: '#9ca3af', marginTop: 2 },
-  menu: { paddingHorizontal: 24 },
+  avatarText: { fontSize: 26, fontWeight: '700', color: colors.primary },
+  identityText: { flex: 1 },
+  name: { ...typography.title, fontSize: 19 },
+  email: { ...typography.caption, marginTop: 2 },
+  meta: { ...typography.captionMuted, marginTop: 2 },
+  editButton: {
+    marginTop: spacing.lg,
+    borderWidth: 1,
+    borderColor: colors.primaryBorder,
+    borderRadius: radii.md,
+    paddingVertical: spacing.md,
+    alignItems: 'center',
+  },
+  editButtonText: { ...typography.bodyStrong, color: colors.primary },
+
+  group: {
+    backgroundColor: colors.surface,
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
+    overflow: 'hidden',
+  },
   menuItem: {
-    flexDirection: 'row', alignItems: 'center', paddingVertical: 16,
-    borderBottomWidth: 1, borderBottomColor: '#f3f4f6',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: spacing.lg,
+    paddingHorizontal: spacing.lg,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.border,
   },
-  menuIcon: { fontSize: 20, marginRight: 12 },
-  menuLabel: { flex: 1, fontSize: 16, color: '#374151' },
-  menuArrow: { fontSize: 20, color: '#9ca3af' },
+  menuIcon: {
+    width: 34,
+    height: 34,
+    borderRadius: radii.sm,
+    backgroundColor: colors.primaryLight,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: spacing.md,
+  },
+  menuLabel: { ...typography.body, flex: 1 },
+
+  adminRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: spacing.lg,
+    paddingVertical: spacing.lg,
+    paddingHorizontal: spacing.lg,
+    backgroundColor: colors.surface,
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  adminIcon: { backgroundColor: colors.warningBg },
+
   logoutButton: {
-    marginHorizontal: 24, marginTop: 24, marginBottom: 48,
-    paddingVertical: 16, borderRadius: 12, borderWidth: 1,
-    borderColor: '#fecaca', alignItems: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing.sm,
+    marginTop: spacing.xl,
+    paddingVertical: spacing.lg,
+    borderRadius: radii.md,
+    borderWidth: 1,
+    borderColor: colors.dangerBorder,
   },
-  logoutText: { color: '#ef4444', fontSize: 16, fontWeight: '600' },
+  logoutText: { ...typography.bodyStrong, color: colors.danger },
+  pressed: { opacity: 0.6 },
 });

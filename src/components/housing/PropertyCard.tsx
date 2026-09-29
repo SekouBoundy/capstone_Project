@@ -1,6 +1,10 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { Image } from 'expo-image';
 import { Property } from '@/types/models';
 import { VerifiedBadge } from '@/components/shared/VerifiedBadge';
+import { colors, spacing, radii, typography, shadow } from '@/theme';
 
 interface PropertyCardProps {
   property: Property;
@@ -8,107 +12,194 @@ interface PropertyCardProps {
 }
 
 export function PropertyCard({ property, onPress }: PropertyCardProps) {
+  const { t } = useTranslation();
+
   const mainImage = property.images?.[0]?.image_url;
+  const photoCount = property.images?.length ?? 0;
 
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={property.title}
+      style={({ pressed }) => [styles.container, shadow.card, pressed && styles.pressed]}
+    >
       <View style={styles.imageContainer}>
         {mainImage ? (
-          <Image source={{ uri: mainImage }} style={styles.image} />
+          <Image
+            source={{ uri: mainImage }}
+            style={styles.image}
+            contentFit="cover"
+            transition={200}
+          />
         ) : (
           <View style={styles.imagePlaceholder}>
-            <Text style={styles.placeholderText}>No image</Text>
+            <MaterialCommunityIcons name="home-city-outline" size={34} color={colors.textMuted} />
           </View>
         )}
-        {property.is_verified && (
-          <View style={styles.badgeContainer}>
-            <VerifiedBadge />
+
+        <View style={styles.imageTopRow}>
+          <View style={styles.typePill}>
+            <Text style={styles.typePillText}>{t(`housing.${property.property_type}`)}</Text>
           </View>
-        )}
+          {property.is_verified ? <VerifiedBadge /> : null}
+        </View>
+
+        {!property.available ? (
+          <View style={[StyleSheet.absoluteFill, styles.unavailableOverlay]}>
+            <Text style={styles.unavailableText}>{t('common.unavailable')}</Text>
+          </View>
+        ) : null}
+
+        {photoCount > 1 ? (
+          <View style={styles.photoCount}>
+            <MaterialCommunityIcons name="image-multiple" size={13} color={colors.textInverse} />
+            <Text style={styles.photoCountText}>{photoCount}</Text>
+          </View>
+        ) : null}
       </View>
 
       <View style={styles.content}>
-        <Text style={styles.title} numberOfLines={1}>{property.title}</Text>
-        <Text style={styles.price}>
-          €{property.price_monthly}
-          <Text style={styles.priceUnit}>/month</Text>
+        <Text style={styles.title} numberOfLines={1}>
+          {property.title}
         </Text>
-        <View style={styles.infoRow}>
-          <Text style={styles.infoText}>{property.rooms} rooms</Text>
-          <Text style={styles.dot}>·</Text>
-          <Text style={styles.infoText}>{property.bathrooms} baths</Text>
-          {property.area_sqm && (
-            <>
-              <Text style={styles.dot}>·</Text>
-              <Text style={styles.infoText}>{property.area_sqm} m²</Text>
-            </>
-          )}
+
+        <View style={styles.priceRow}>
+          <Text style={styles.price}>{t('common.currency')}</Text>
+          <Text style={styles.priceValue}>{property.price_monthly}</Text>
+          <Text style={styles.priceUnit}>{t('common.perMonth')}</Text>
         </View>
-        {property.city && (
-          <Text style={styles.location}>{property.city}</Text>
-        )}
+
+        <View style={styles.metaRow}>
+          {property.city ? (
+            <>
+              <MaterialCommunityIcons name="map-marker-outline" size={14} color={colors.textMuted} />
+              <Text style={styles.meta} numberOfLines={1}>
+                {property.city}
+              </Text>
+            </>
+          ) : null}
+
+          <View style={styles.dot} />
+          <Text style={styles.meta}>
+            {property.rooms} {t('common.rooms')}
+          </Text>
+          {property.area_sqm ? (
+            <>
+              <View style={styles.dot} />
+              <Text style={styles.meta}>
+                {property.area_sqm} {t('common.area')}
+              </Text>
+            </>
+          ) : null}
+          {property.furnished ? (
+            <>
+              <View style={styles.dot} />
+              <MaterialCommunityIcons name="sofa-outline" size={14} color={colors.textMuted} />
+            </>
+          ) : null}
+        </View>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    marginBottom: 16,
+    backgroundColor: colors.surface,
+    borderRadius: radii.lg,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: colors.border,
     overflow: 'hidden',
+    marginBottom: spacing.lg,
   },
+  pressed: { opacity: 0.9, transform: [{ scale: 0.995 }] },
   imageContainer: {
-    position: 'relative',
-    height: 180,
+    height: 172,
+    backgroundColor: colors.surfaceMuted,
   },
-  image: {
-    width: '100%',
-    height: '100%',
-  },
+  image: { width: '100%', height: '100%' },
   imagePlaceholder: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#e5e7eb',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  placeholderText: { color: '#9ca3af', fontSize: 14 },
-  badgeContainer: {
+  imageTopRow: {
     position: 'absolute',
-    top: 8,
-    right: 8,
-  },
-  content: {
-    padding: 16,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#374151',
-    marginBottom: 4,
-  },
-  price: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#2563eb',
-    marginBottom: 4,
-  },
-  priceUnit: {
-    fontSize: 14,
-    fontWeight: 'normal',
-    color: '#6b7280',
-  },
-  infoRow: {
+    top: spacing.md,
+    left: spacing.md,
+    right: spacing.md,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
-    marginBottom: 4,
+    justifyContent: 'space-between',
   },
-  infoText: { fontSize: 13, color: '#6b7280' },
-  dot: { color: '#d1d5db' },
-  location: { fontSize: 13, color: '#9ca3af' },
+  typePill: {
+    backgroundColor: 'rgba(15,23,42,0.72)',
+    paddingHorizontal: spacing.md,
+    paddingVertical: 5,
+    borderRadius: radii.pill,
+  },
+  typePillText: {
+    color: colors.textInverse,
+    fontSize: 11,
+    fontWeight: '600',
+    textTransform: 'capitalize',
+  },
+  unavailableOverlay: {
+    backgroundColor: 'rgba(15,23,42,0.55)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  unavailableText: {
+    ...typography.bodyStrong,
+    color: colors.textInverse,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  photoCount: {
+    position: 'absolute',
+    bottom: spacing.md,
+    right: spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+    backgroundColor: 'rgba(15,23,42,0.72)',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 4,
+    borderRadius: radii.pill,
+  },
+  photoCountText: {
+    color: colors.textInverse,
+    fontSize: 11,
+    fontWeight: '600',
+  },
+  content: { padding: spacing.lg },
+  title: { ...typography.heading },
+  priceRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    marginTop: spacing.xs,
+  },
+  price: { ...typography.heading, color: colors.primary, fontSize: 16 },
+  priceValue: {
+    fontSize: 21,
+    fontWeight: '700',
+    color: colors.primary,
+    marginHorizontal: 2,
+  },
+  priceUnit: { ...typography.caption },
+  metaRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+    marginTop: spacing.sm,
+  },
+  meta: { ...typography.caption, flexShrink: 1 },
+  dot: {
+    width: 3,
+    height: 3,
+    borderRadius: 2,
+    backgroundColor: colors.borderStrong,
+  },
 });

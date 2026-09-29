@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
+import { PROFILE_PUBLIC_COLUMNS } from '@/lib/profileColumns';
 import { Message } from '@/types/models';
 
 async function fetchMessages(conversationId: string): Promise<Message[]> {
   const { data, error } = await supabase
     .from('messages')
-    .select('*, sender:profiles(*)')
+    .select(`*, sender:profiles(${PROFILE_PUBLIC_COLUMNS})`)
     .eq('conversation_id', conversationId)
     .order('created_at', { ascending: true });
 

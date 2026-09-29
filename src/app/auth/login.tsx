@@ -23,7 +23,13 @@ export default function Login() {
 
     if (error) {
       Alert.alert(t('common.error'), error.message);
+      return;
     }
+
+    // The session itself lands in the store via onAuthStateChange, but
+    // this screen is not the root redirect, so nothing navigates for us.
+    // Without this the button just stops spinning and the app stays put.
+    router.replace('/housing');
   };
 
   return (

@@ -34,6 +34,12 @@
     "approved": "معتمد",
     "rejected": "مرفوض"
   },
+  "nav": {
+    "housing": "سكن",
+    "marketplace": "السوق",
+    "messages": "الرسائل",
+    "account": "الحساب"
+  },
   "auth": {
     "welcome": "مرحباً بك في DOUCSOFT",
     "welcomeSubtitle": "سكن وسوق للطلاب الدوليين",
@@ -73,7 +79,7 @@
     "skip": "تخطي في الوقت الحالي"
   },
   "housing": {
-    "title": "البحث عن سكن",
+    "title": "العنوان",
     "subtitle": "عقارات موثقة بالقرب من جامعتك",
     "searchPlaceholder": "ابحث بالموقع، العنوان...",
     "filters": "عوامل التصفية",
@@ -99,7 +105,6 @@
     "deleteListing": "حذف الإعلان",
     "createListing": "إنشاء إعلان",
     "editListingTitle": "تعديل الإعلان",
-    "title": "العنوان",
     "price": "الإيجار الشهري",
     "propertyTypeLabel": "نوع العقار",
     "apartment": "شقة",

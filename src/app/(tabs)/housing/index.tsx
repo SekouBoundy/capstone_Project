@@ -1,45 +1,82 @@
-import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, FlatList, RefreshControl, Pressable, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useProperties } from '@/hooks/useProperties';
 import { PropertyCard } from '@/components/housing/PropertyCard';
+import { ScreenHeader } from '@/components/ui/ScreenHeader';
+import { SearchBar } from '@/components/ui/SearchBar';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { PropertyCardSkeleton } from '@/components/ui/Skeleton';
 import { useAuthStore } from '@/stores/authStore';
+import { colors, spacing, shadow } from '@/theme';
+import type { HousingFilters } from '@/types/models';
+
+const SEARCH_DEBOUNCE_MS = 350;
 
 export default function HousingScreen() {
   const router = useRouter();
   const { t } = useTranslation();
   const { profile } = useAuthStore();
   const [search, setSearch] = useState('');
-  const { data: properties, isLoading } = useProperties({ search });
+  const [applied, setApplied] = useState<HousingFilters>({});
+
+  const { data: properties, isLoading, isRefetching, refetch, isError, error } = useProperties(applied);
+
+  // Debounce the text field into the query. Without this every keystroke
+  // changes the query key and refetches, so typing "Nicosia" fires seven
+  // requests. The filters screen is a separate route and does not go
+  // through here.
+  useEffect(() => {
+    const trimmed = search.trim();
+    if ((applied.search ?? '') === trimmed) return;
+
+    const timer = setTimeout(() => {
+      setApplied((prev) => ({ ...prev, search: trimmed || undefined }));
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => clearTimeout(timer);
+  }, [search, applied.search]);
 
   const canCreate = profile?.role === 'owner' || profile?.role === 'agency';
 
+  const submit = () => setApplied((prev) => ({ ...prev, search }));
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>{t('housing.title')}</Text>
-        <Text style={styles.subtitle}>{t('housing.subtitle')}</Text>
-      </View>
+      <ScreenHeader title={t('housing.title')} subtitle={t('housing.subtitle')} />
 
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
+      <View style={styles.searchRow}>
+        <SearchBar
           placeholder={t('housing.searchPlaceholder')}
           value={search}
           onChangeText={setSearch}
-          placeholderTextColor="#9ca3af"
+          onSubmitEditing={() => {
+            const trimmed = search.trim();
+            setApplied((prev) => ({ ...prev, search: trimmed || undefined }));
+          }}
+          onClear={() => setSearch('')}
+          onPressFilters={() => router.push('/housing/filters')}
         />
-        <TouchableOpacity
-          style={styles.filterButton}
-          onPress={() => router.push('/housing/filters')}
-        >
-          <Text style={styles.filterButtonText}>{t('housing.filters')}</Text>
-        </TouchableOpacity>
       </View>
 
-      {isLoading ? (
-        <ActivityIndicator size="large" style={styles.loader} />
+      {isError ? (
+        <EmptyState
+          icon="wifi-off"
+          title={t('common.error')}
+          description={error instanceof Error ? error.message : undefined}
+          action={{ label: t('common.retry'), onPress: () => refetch() }}
+          style={styles.centered}
+        />
+      ) : isLoading ? (
+        <FlatList
+          data={[0, 1, 2]}
+          keyExtractor={(item) => String(item)}
+          renderItem={() => <PropertyCardSkeleton />}
+          contentContainerStyle={styles.list}
+          showsVerticalScrollIndicator={false}
+        />
       ) : (
         <FlatList
           data={properties}
@@ -50,24 +87,41 @@ export default function HousingScreen() {
               onPress={() => router.push(`/housing/${item.id}`)}
             />
           )}
-          contentContainerStyle={styles.list}
+          contentContainerStyle={properties?.length ? styles.list : styles.listEmpty}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefetching}
+              onRefresh={refetch}
+              tintColor={colors.primary}
+            />
+          }
           ListEmptyComponent={
-            <View style={styles.emptyContainer}>
-              <Text style={styles.emptyText}>{t('common.noResults')}</Text>
-              <Text style={styles.emptyDesc}>{t('common.noResultsDesc')}</Text>
-            </View>
+            <EmptyState
+              icon="home-search-outline"
+              title={t('common.noResults')}
+              description={t('common.noResultsDesc')}
+              action={
+                canCreate
+                  ? { label: t('housing.createListing'), onPress: () => router.push('/housing/new') }
+                  : undefined
+              }
+              style={styles.centered}
+            />
           }
         />
       )}
 
-      {canCreate && (
-        <TouchableOpacity
-          style={styles.fab}
+      {canCreate ? (
+        <Pressable
           onPress={() => router.push('/housing/new')}
+          accessibilityRole="button"
+          accessibilityLabel={t('housing.createListing')}
+          style={({ pressed }) => [styles.fab, shadow.raised, pressed && styles.fabPressed]}
         >
-          <Text style={styles.fabText}>+</Text>
-        </TouchableOpacity>
-      )}
+          <MaterialCommunityIcons name="plus" size={26} color={colors.textInverse} />
+        </Pressable>
+      ) : null}
     </View>
   );
 }
@@ -75,93 +129,31 @@ export default function HousingScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.background,
   },
-  header: {
-    paddingTop: 60,
-    paddingHorizontal: 24,
-    paddingBottom: 16,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#1e3a8a',
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#6b7280',
-    marginTop: 4,
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    paddingHorizontal: 24,
-    gap: 8,
-    marginBottom: 16,
-  },
-  searchInput: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-    color: '#374151',
-    backgroundColor: '#f9fafb',
-  },
-  filterButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 12,
-    backgroundColor: '#eff6ff',
-    justifyContent: 'center',
-  },
-  filterButtonText: {
-    color: '#2563eb',
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  loader: {
-    marginTop: 48,
+  searchRow: {
+    paddingHorizontal: spacing.xxl,
+    paddingBottom: spacing.lg,
   },
   list: {
-    paddingHorizontal: 24,
-    paddingBottom: 80,
+    paddingHorizontal: spacing.xxl,
+    paddingBottom: spacing.xxxl,
   },
-  emptyContainer: {
-    alignItems: 'center',
-    paddingTop: 48,
+  listEmpty: {
+    flexGrow: 1,
+    paddingHorizontal: spacing.xxl,
   },
-  emptyText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#374151',
-    marginBottom: 8,
-  },
-  emptyDesc: {
-    fontSize: 14,
-    color: '#6b7280',
-    textAlign: 'center',
-  },
+  centered: { flex: 1, justifyContent: 'center' },
   fab: {
     position: 'absolute',
-    bottom: 24,
-    right: 24,
+    bottom: spacing.xxl,
+    right: spacing.xxl,
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#2563eb',
-    justifyContent: 'center',
+    backgroundColor: colors.primary,
     alignItems: 'center',
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    justifyContent: 'center',
   },
-  fabText: {
-    color: '#fff',
-    fontSize: 28,
-    fontWeight: '300',
-  },
+  fabPressed: { opacity: 0.85 },
 });

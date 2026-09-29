@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { supabase } from '@/lib/supabase';
+import { PROFILE_PUBLIC_COLUMNS } from '@/lib/profileColumns';
 import { Session, User } from '@supabase/supabase-js';
 import { Profile } from '@/types/models';
 
@@ -28,7 +29,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       if (session?.user) {
         const { data: profile } = await supabase
           .from('profiles')
-          .select('*')
+          .select(PROFILE_PUBLIC_COLUMNS)
           .eq('id', session.user.id)
           .single();
         set({ profile: profile ?? null });
@@ -39,7 +40,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         if (session?.user) {
           const { data: profile } = await supabase
             .from('profiles')
-            .select('*')
+            .select(PROFILE_PUBLIC_COLUMNS)
             .eq('id', session.user.id)
             .single();
           set({ profile: profile ?? null });

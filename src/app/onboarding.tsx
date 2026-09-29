@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { PROFILE_PUBLIC_COLUMNS } from '@/lib/profileColumns';
 import { useAuthStore } from '@/stores/authStore';
 import { UNIVERSITIES } from '@/lib/constants';
 
@@ -25,7 +26,7 @@ export default function Onboarding() {
       .from('profiles')
       .update(form)
       .eq('id', user!.id)
-      .select()
+      .select(PROFILE_PUBLIC_COLUMNS)
       .single();
 
     if (!error && data) {

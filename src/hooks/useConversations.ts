@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
+import { PROFILE_PUBLIC_COLUMNS } from '@/lib/profileColumns';
 import { Conversation } from '@/types/models';
 
 async function fetchConversations(): Promise<Conversation[]> {
@@ -10,7 +11,7 @@ async function fetchConversations(): Promise<Conversation[]> {
     .from('conversations')
     .select(`
       *,
-      other_participant:profiles!conversations_participant_b_fkey(*),
+      other_participant:profiles!conversations_participant_b_fkey(${PROFILE_PUBLIC_COLUMNS}),
       last_message:messages(*)
     `)
     .or(`participant_a.eq.${user.id},participant_b.eq.${user.id}`)
@@ -43,7 +44,7 @@ async function fetchConversation(id: string): Promise<Conversation | null> {
     .from('conversations')
     .select(`
       *,
-      other_participant:profiles!conversations_participant_b_fkey(*)
+      other_participant:profiles!conversations_participant_b_fkey(${PROFILE_PUBLIC_COLUMNS})
     `)
     .eq('id', id)
     .single();

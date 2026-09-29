@@ -36,7 +36,8 @@ export default function AdminUsers() {
               <Text style={styles.avatarText}>{item.full_name?.[0] || '?'}</Text>
             </View>
             <View style={styles.userInfo}>
-              <Text style={styles.userName}>{item.full_name}</Text>
+              <Text style={styles.userName}>{item.full_name || '—'}</Text>
+              {item.email ? <Text style={styles.userEmail}>{item.email}</Text> : null}
               <Text style={styles.userRole}>{item.role}</Text>
             </View>
             <View style={[styles.statusBadge, item.is_suspended ? styles.suspended : styles.active]}>
@@ -72,6 +73,7 @@ const styles = StyleSheet.create({
   avatarText: { fontSize: 16, fontWeight: '600', color: '#2563eb' },
   userInfo: { flex: 1 },
   userName: { fontSize: 16, fontWeight: '600', color: '#374151' },
+  userEmail: { fontSize: 13, color: '#6b7280', marginTop: 2 },
   userRole: { fontSize: 13, color: '#6b7280', marginTop: 2 },
   statusBadge: {
     paddingHorizontal: 8, paddingVertical: 4, borderRadius: 8,

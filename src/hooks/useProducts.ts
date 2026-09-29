@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
+import { PROFILE_PUBLIC_COLUMNS } from '@/lib/profileColumns';
 import { Product, MarketplaceFilters } from '@/types/models';
 
 async function fetchProducts(filters?: MarketplaceFilters): Promise<Product[]> {
   let query = supabase
     .from('products')
-    .select('*, seller:profiles(*)')
+    .select(`*, seller:profiles(${PROFILE_PUBLIC_COLUMNS})`)
     .eq('status', 'active')
     .order('created_at', { ascending: false });
 
@@ -36,7 +37,7 @@ async function fetchProducts(filters?: MarketplaceFilters): Promise<Product[]> {
 async function fetchProduct(id: string): Promise<Product | null> {
   const { data, error } = await supabase
     .from('products')
-    .select('*, seller:profiles(*)')
+    .select(`*, seller:profiles(${PROFILE_PUBLIC_COLUMNS})`)
     .eq('id', id)
     .single();
   if (error) throw error;

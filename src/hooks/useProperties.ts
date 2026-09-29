@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
+import { PROFILE_PUBLIC_COLUMNS } from '@/lib/profileColumns';
 import { Property, HousingFilters } from '@/types/models';
 
 async function fetchProperties(filters?: HousingFilters): Promise<Property[]> {
   let query = supabase
     .from('properties')
-    .select('*, images:property_images(*), owner:profiles(*)')
+    .select(`*, images:property_images(*), owner:profiles(${PROFILE_PUBLIC_COLUMNS})`)
     .eq('status', 'published')
     .order('created_at', { ascending: false });
 
@@ -39,7 +40,7 @@ async function fetchProperties(filters?: HousingFilters): Promise<Property[]> {
 async function fetchProperty(id: string): Promise<Property | null> {
   const { data, error } = await supabase
     .from('properties')
-    .select('*, images:property_images(*), owner:profiles(*)')
+    .select(`*, images:property_images(*), owner:profiles(${PROFILE_PUBLIC_COLUMNS})`)
     .eq('id', id)
     .single();
   if (error) throw error;
