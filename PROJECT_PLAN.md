@@ -294,13 +294,24 @@ notifications
 | Settings | `/account/settings` | Language, notifications, delete account |
 
 ### 5.6 Admin
+
+Admin lives in a **separate web app** at `admin-web/`, not in the mobile app.
+It is a Vite + React SPA authenticating against the same Supabase project, so
+admin accounts are ordinary app accounts with `role = 'admin'` and one set of
+RLS policies governs both clients. See `admin-web/README.md`.
+
 | Screen | Route | Purpose |
 |--------|-------|---------|
-| Admin Dashboard | `/admin` | Stats overview |
-| Users | `/admin/users` | Search, suspend, reactivate |
-| Verifications | `/admin/verifications` | Review pending requests, approve/reject |
-| Reports | `/admin/reports` | Review reports, take action |
-| Moderation | `/admin/moderation` | Remove listings, manage content |
+| Admin Dashboard | `/` | Stats overview, outstanding queues |
+| Users | `/users` | Search, role changes, suspend, reactivate |
+| Verifications | `/verifications` | Review pending requests, approve/reject |
+| Reports | `/reports` | Triage reports, resolve/dismiss with notes |
+| Moderation | `/moderation` | Remove and restore listings and items |
+
+All of it runs through `SECURITY DEFINER` RPCs in
+`supabase/migrations/014_admin_web_panel.sql`, each gated on `is_admin()`.
+The reason an admin types into a removal or a rejection is written to a
+notification, so the affected user is told why.
 
 ---
 
@@ -609,11 +620,11 @@ EXPO_PUBLIC_APP_URL=http://localhost:8081
 - [ ] Owner/Agency verification submission flow
 - [ ] Verification status tracking
 - [ ] Report listing / user flow
-- [ ] Admin dashboard (stats overview)
-- [ ] Admin: user management (suspend, reactivate)
-- [ ] Admin: verification review (approve, reject)
-- [ ] Admin: reports management
-- [ ] Admin: content moderation (remove listings)
+- [x] Admin dashboard (stats overview) — `admin-web/`
+- [x] Admin: user management (suspend, reactivate) — `admin-web/`
+- [x] Admin: verification review (approve, reject) — `admin-web/`
+- [x] Admin: reports management — `admin-web/`
+- [x] Admin: content moderation (remove listings) — `admin-web/`
 
 ### Phase 6 — Polish & UX
 - [ ] Favorites (save properties + products)

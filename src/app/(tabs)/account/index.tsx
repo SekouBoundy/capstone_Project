@@ -212,30 +212,6 @@ export default function AccountScreen() {
           </View>
         ))}
 
-        {profile?.role === 'admin' ? (
-          <View style={styles.section}>
-            <View style={styles.group}>
-              <Pressable
-                onPress={() => router.push('/admin')}
-                accessibilityRole="button"
-                style={({ pressed }) => [styles.row, pressed && styles.pressed]}
-              >
-                <MaterialCommunityIcons
-                  name="shield-crown-outline"
-                  size={20}
-                  color={colors.text}
-                  style={styles.rowIcon}
-                />
-                <Text style={styles.rowLabel}>{t('admin.dashboard')}</Text>
-                <View style={styles.adminPill}>
-                  <Text style={styles.adminPillText}>ADMIN</Text>
-                </View>
-                <MaterialCommunityIcons name="chevron-right" size={18} color={colors.textMuted} />
-              </Pressable>
-            </View>
-          </View>
-        ) : null}
-
         <Pressable
           onPress={signOut}
           accessibilityRole="button"
@@ -341,19 +317,6 @@ const styles = StyleSheet.create({
   rowIcon: { marginRight: spacing.lg },
   rowLabel: { ...typography.body, flex: 1 },
   rowValue: { ...typography.caption, marginRight: spacing.xs },
-  adminPill: {
-    backgroundColor: colors.text,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 2,
-    borderRadius: radii.sm,
-    marginRight: spacing.sm,
-  },
-  adminPillText: {
-    color: colors.textInverse,
-    fontSize: 9,
-    fontWeight: '700',
-    letterSpacing: 0.5,
-  },
 
   // Logout: plain text, no chrome. A bordered red box pulls far too much
   // attention for a secondary destructive action.
