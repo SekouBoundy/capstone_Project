@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Image } from 'expo-image';
 import { Property } from '@/types/models';
-import { VerifiedBadge } from '@/components/shared/VerifiedBadge';
+import { FavoriteButton } from '@/components/housing/FavoriteButton';
 import { formatPrice } from '@/lib/format';
 import { colors, spacing, radii, typography, shadow } from '@/theme';
 
@@ -12,20 +12,29 @@ interface PropertyCardProps {
   onPress: () => void;
 }
 
+/**
+ * Grid card for the housing feed.
+ *
+ * Square-ish photo with the price on it, then title and city beneath. The
+ * price is the one number a browser decides on, so it goes on the image
+ * where it is compared across cards at a glance, rather than below the
+ * fold of each cell where it would need a separate read.
+ */
 export function PropertyCard({ property, onPress }: PropertyCardProps) {
   const { t } = useTranslation();
 
   const mainImage = property.images?.[0]?.image_url;
   const photoCount = property.images?.length ?? 0;
+  const price = formatPrice(property.price_monthly, property.currency);
 
   return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityLabel={`${property.title}, ${formatPrice(property.price_monthly, property.currency)}`}
-      style={({ pressed }) => [styles.container, pressed && styles.pressed]}
-    >
-      <View style={styles.imageContainer}>
+    <View style={styles.wrapper}>
+      <Pressable
+        onPress={onPress}
+        accessibilityRole="button"
+        accessibilityLabel={`${property.title}, ${price}`}
+        style={({ pressed }) => [styles.card, pressed && styles.pressed]}
+      >
         {mainImage ? (
           <Image
             source={{ uri: mainImage }}
@@ -35,30 +44,28 @@ export function PropertyCard({ property, onPress }: PropertyCardProps) {
           />
         ) : (
           <View style={styles.imagePlaceholder}>
-            <MaterialCommunityIcons name="home-city-outline" size={32} color={colors.textMuted} />
+            <MaterialCommunityIcons name="home-city-outline" size={28} color={colors.textMuted} />
           </View>
         )}
 
-        {/* Gradient scrim, only behind the top row, so white overlay text
-            stays legible on a bright photo without darkening the image. */}
-        <View style={styles.scrim} pointerEvents="none" />
+        {/* Price sits on the image, so it needs a plate to stay legible
+            over a bright window as well as a dark floor. */}
+        <View style={styles.pricePill}>
+          <Text style={styles.price} numberOfLines={1}>
+            {price}
+          </Text>
+          <Text style={styles.period}>{t('common.perMonth')}</Text>
+        </View>
 
-        <View style={styles.topRow}>
-          <View style={styles.typePill}>
-            <Text style={styles.typePillText}>
-              {t(`housing.${property.property_type}`)}
-            </Text>
-          </View>
-          {property.is_verified ? <VerifiedBadge /> : null}
+        <View style={styles.typePill}>
+          <Text style={styles.typePillText} numberOfLines={1}>
+            {t(`housing.${property.property_type}`)}
+          </Text>
         </View>
 
         {photoCount > 1 ? (
           <View style={styles.photoCount}>
-            <MaterialCommunityIcons
-              name="image-multiple"
-              size={12}
-              color={colors.textInverse}
-            />
+            <MaterialCommunityIcons name="image-multiple" size={11} color={colors.textInverse} />
             <Text style={styles.photoCountText}>{photoCount}</Text>
           </View>
         ) : null}
@@ -68,135 +75,105 @@ export function PropertyCard({ property, onPress }: PropertyCardProps) {
             <Text style={styles.unavailableText}>{t('common.unavailable')}</Text>
           </View>
         ) : null}
+      </Pressable>
+
+      {/* Sibling of the card's Pressable, not a child: a nested pressable
+          steals the tap on iOS, so the heart would open the listing. */}
+      <View style={styles.heart}>
+        <FavoriteButton listingType="property" listingId={property.id} size={18} />
       </View>
 
-      <View style={styles.body}>
-        <Text style={styles.title} numberOfLines={1}>
-          {property.title}
+      <Text style={styles.title} numberOfLines={1}>
+        {property.title}
+      </Text>
+
+      <View style={styles.metaRow}>
+        {property.city ? (
+          <MaterialCommunityIcons name="map-marker-outline" size={12} color={colors.textMuted} />
+        ) : null}
+        <Text style={styles.meta} numberOfLines={1}>
+          {[property.city, property.rooms ? t('common.room', { count: property.rooms }) : null]
+            .filter(Boolean)
+            .join(' · ')}
         </Text>
-
-        {/* Meta line before price: the eye reads "where / how big" first
-            and the number second. Putting price immediately under the
-            title split the two facts a user compares listings on. */}
-        <View style={styles.metaRow}>
-          {property.city ? (
-            <>
-              <MaterialCommunityIcons
-                name="map-marker-outline"
-                size={13}
-                color={colors.textMuted}
-              />
-              <Text style={styles.meta} numberOfLines={1}>
-                {property.city}
-              </Text>
-            </>
-          ) : null}
-
-          <View style={styles.dot} />
-          <Text style={styles.meta}>
-            {t('common.room', { count: property.rooms })}
-          </Text>
-
-          {property.area_sqm ? (
-            <>
-              <View style={styles.dot} />
-              <Text style={styles.meta}>
-                {property.area_sqm} {t('common.area')}
-              </Text>
-            </>
-          ) : null}
-
-          {property.furnished ? (
-            <MaterialCommunityIcons
-              name="sofa-outline"
-              size={14}
-              color={colors.textMuted}
-            />
-          ) : null}
-        </View>
-
-        <View style={styles.priceRow}>
-          <Text style={styles.price}>
-            {formatPrice(property.price_monthly, property.currency)}
-          </Text>
-          <Text style={styles.period}>{t('common.perMonth')}</Text>
-        </View>
       </View>
-    </Pressable>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    // Shadow rather than a 1px border: a border on every side draws a
-    // box around each listing and makes a vertical feed look like a
-    // stack of tables. Elevation separates the cards without that.
+  wrapper: {
+    // `flex: 1` so a two-column `numColumns` list splits the row evenly.
+    // Cards have different title lengths, so equal width cannot come from
+    // content.
+    flex: 1,
+    marginBottom: spacing.xl,
+  },
+  card: {
     ...shadow.card,
-    backgroundColor: colors.surface,
+    backgroundColor: colors.surfaceMuted,
     borderRadius: radii.lg,
     overflow: 'hidden',
-    marginBottom: spacing.xxl,
   },
-  pressed: { opacity: 0.92, transform: [{ scale: 0.995 }] },
-
-  imageContainer: {
-    aspectRatio: 4 / 3,
-    backgroundColor: colors.surfaceMuted,
-  },
-  image: { width: '100%', height: '100%' },
+  pressed: { opacity: 0.9 },
+  image: { width: '100%', aspectRatio: 1, backgroundColor: colors.surfaceMuted },
   imagePlaceholder: {
     width: '100%',
-    height: '100%',
+    aspectRatio: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  scrim: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    height: 72,
-    backgroundColor: 'rgba(0, 0, 0, 0.18)',
-  },
 
-  topRow: {
+  pricePill: {
     position: 'absolute',
-    top: spacing.md,
-    left: spacing.md,
-    right: spacing.md,
+    top: spacing.sm,
+    left: spacing.sm,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  typePill: {
+    alignItems: 'baseline',
+    gap: 3,
+    maxWidth: '72%',
     backgroundColor: 'rgba(0,0,0,0.62)',
     paddingHorizontal: spacing.sm,
     paddingVertical: 4,
+    borderRadius: radii.sm,
+  },
+  price: {
+    ...typography.caption,
+    color: colors.textInverse,
+    fontWeight: '700',
+    flexShrink: 1,
+  },
+  period: { fontSize: 10, color: 'rgba(255,255,255,0.85)' },
+
+  typePill: {
+    position: 'absolute',
+    bottom: spacing.sm,
+    left: spacing.sm,
+    maxWidth: '60%',
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 3,
     borderRadius: radii.pill,
   },
   typePillText: {
     color: colors.textInverse,
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: '600',
   },
 
   photoCount: {
     position: 'absolute',
-    bottom: spacing.md,
-    right: spacing.md,
+    bottom: spacing.sm,
+    right: spacing.sm,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.xs,
-    backgroundColor: 'rgba(0,0,0,0.62)',
-    paddingHorizontal: spacing.sm,
+    gap: 3,
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    paddingHorizontal: 6,
     paddingVertical: 3,
     borderRadius: radii.pill,
   },
-  photoCountText: {
-    color: colors.textInverse,
-    fontSize: 11,
-    fontWeight: '600',
-  },
+  photoCountText: { color: colors.textInverse, fontSize: 10, fontWeight: '600' },
 
   unavailableOverlay: {
     position: 'absolute',
@@ -209,34 +186,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   unavailableText: {
-    ...typography.bodyStrong,
+    ...typography.label,
     color: colors.textInverse,
     textTransform: 'uppercase',
-    letterSpacing: 1,
+    letterSpacing: 0.8,
   },
 
-  body: { paddingHorizontal: spacing.lg, paddingTop: spacing.md, paddingBottom: spacing.lg },
-  title: { ...typography.heading, fontSize: 16 },
-
-  metaRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.xs,
-    marginTop: spacing.xs,
-  },
-  meta: { ...typography.caption, flexShrink: 1 },
-  dot: {
-    width: 3,
-    height: 3,
-    borderRadius: 2,
-    backgroundColor: colors.borderStrong,
-  },
-
-  priceRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    marginTop: spacing.sm,
-  },
-  price: { fontSize: 17, fontWeight: '700', color: colors.text },
-  period: { ...typography.caption, marginLeft: 4 },
+  heart: { position: 'absolute', top: spacing.sm, right: spacing.sm },
+  title: { ...typography.bodyStrong, marginTop: spacing.sm },
+  metaRow: { flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 2 },
+  meta: { ...typography.caption, color: colors.textMuted, flexShrink: 1 },
 });

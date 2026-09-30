@@ -36,7 +36,9 @@
     "room_one": "{count} pièce",
     "room_other": "{count} pièces",
     "bath_one": "{count} salle de bain",
-    "bath_other": "{count} salles de bain"
+    "bath_other": "{count} salles de bain",
+    "seeAll": "Tout voir",
+    "close": "Fermer"
   },
   "nav": {
     "housing": "Logements",
@@ -129,7 +131,33 @@
     "noListings": "Aucune annonce",
     "noListingsDesc": "Créez votre première annonce pour commencer",
     "filterAll": "Tous",
-    "filterAnywhere": "N'importe où"
+    "filterAnywhere": "N'importe où",
+    "discoverTitle": "Découvrez votre nouveau chez-vous !",
+    "nearby": "Propriétés à proximité",
+    "allListings": "Toutes les annonces",
+    "menuTitle": "Menu",
+    "bedrooms": "Chambres",
+    "rent": "Loyer",
+    "openInMaps": "Ouvrir dans Maps",
+    "agency": "Agence",
+    "owner": "Propriétaire",
+    "removeFromSaved": "Retirer des favoris",
+    "amenity": {
+      "wifi": "Wi-Fi",
+      "ac": "Climatisation",
+      "heating": "Chauffage",
+      "washer": "Lave-linge",
+      "dryer": "Sèche-linge",
+      "dishwasher": "Lave-vaisselle",
+      "parking": "Parking",
+      "gym": "Salle de sport",
+      "pool": "Piscine",
+      "furnished": "Meublé",
+      "balcony": "Balcon",
+      "elevator": "Ascenseur",
+      "security": "Sécurité",
+      "pets_allowed": "Animaux acceptés"
+    }
   },
   "marketplace": {
     "title": "Marketplace",
@@ -218,7 +246,8 @@
     "listingsShort": "Annonces",
     "productsShort": "Articles",
     "favoritesShort": "Favoris",
-    "verificationNone": "Non soumise"
+    "verificationNone": "Non soumise",
+    "favoritesEmptyDesc": "Rien de enregistré. Touchez le cœur sur une annonce pour la retrouver ici."
   },
   "admin": {
     "dashboard": "Tableau de bord",
@@ -251,5 +280,11 @@
     "housingDesc": "Une chambre, un studio, un appartement ou une maison",
     "marketTitle": "Vendre un objet",
     "marketDesc": "Meubles, électronique, livres et plus"
+  },
+  "role": {
+    "student": "Étudiant",
+    "owner": "Propriétaire",
+    "agency": "Agence",
+    "admin": "Admin"
   }
 }

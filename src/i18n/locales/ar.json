@@ -44,7 +44,9 @@
     "bath_two": "حمامان",
     "bath_few": "{count} حمامات",
     "bath_many": "{count} حمامًا",
-    "bath_other": "{count} حمام"
+    "bath_other": "{count} حمام",
+    "seeAll": "عرض الكل",
+    "close": "إغلاق"
   },
   "nav": {
     "housing": "سكن",
@@ -137,7 +139,33 @@
     "noListings": "لا توجد إعلانات بعد",
     "noListingsDesc": "أنشئ إعلانك الأول للبدء",
     "filterAll": "الكل",
-    "filterAnywhere": "في كل مكان"
+    "filterAnywhere": "في كل مكان",
+    "discoverTitle": "اكتشف منزلك الجديد!",
+    "nearby": "عقارات قريبة",
+    "allListings": "كل الإعلانات",
+    "menuTitle": "القائمة",
+    "bedrooms": "غرف النوم",
+    "rent": "الإيجار",
+    "openInMaps": "افتح في الخرائط",
+    "agency": "وكالة",
+    "owner": "المالك",
+    "removeFromSaved": "إزالة من المحفوظات",
+    "amenity": {
+      "wifi": "واي فاي",
+      "ac": "تكييف",
+      "heating": "تدفئة",
+      "washer": "غسالة",
+      "dryer": "مجفف",
+      "dishwasher": "غسالة صحون",
+      "parking": "موقف سيارات",
+      "gym": "صالة رياضية",
+      "pool": "مسبح",
+      "furnished": "مفروش",
+      "balcony": "شرفة",
+      "elevator": "مصعد",
+      "security": "أمن",
+      "pets_allowed": "يسمح بالحيوانات الأليفة"
+    }
   },
   "marketplace": {
     "title": "السوق",
@@ -226,7 +254,8 @@
     "listingsShort": "إعلانات",
     "productsShort": "منتجات",
     "favoritesShort": "المفضلة",
-    "verificationNone": "لم يتم التقديم"
+    "verificationNone": "لم يتم التقديم",
+    "favoritesEmptyDesc": "لا توجد عناصر محفوظة. اضغط على القلب في أي إعلان لحفظه هنا."
   },
   "admin": {
     "dashboard": "لوحة التحكم",
@@ -259,5 +288,11 @@
     "housingDesc": "غرفة أو استوديو أو شقة أو منزل",
     "marketTitle": "بيع قطعة",
     "marketDesc": "أثاث وإلكترونيات وكتب والمزيد"
+  },
+  "role": {
+    "student": "طالب",
+    "owner": "مالك",
+    "agency": "وكالة",
+    "admin": "مسؤول"
   }
 }

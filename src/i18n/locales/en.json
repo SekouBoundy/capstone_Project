@@ -36,7 +36,9 @@
     "room_one": "{count} room",
     "room_other": "{count} rooms",
     "bath_one": "{count} bath",
-    "bath_other": "{count} baths"
+    "bath_other": "{count} baths",
+    "seeAll": "See all",
+    "close": "Close"
   },
   "nav": {
     "housing": "Housing",
@@ -129,7 +131,33 @@
     "noListings": "No listings yet",
     "noListingsDesc": "Create your first listing to get started",
     "filterAll": "All",
-    "filterAnywhere": "Anywhere"
+    "filterAnywhere": "Anywhere",
+    "discoverTitle": "Discover your new home!",
+    "nearby": "Property Nearby",
+    "allListings": "All Listings",
+    "menuTitle": "Menu",
+    "bedrooms": "Bedrooms",
+    "rent": "Rent",
+    "openInMaps": "Open in Maps",
+    "agency": "Agency",
+    "owner": "Owner",
+    "removeFromSaved": "Remove from saved",
+    "amenity": {
+      "wifi": "Wi-Fi",
+      "ac": "Air conditioning",
+      "heating": "Heating",
+      "washer": "Washer",
+      "dryer": "Dryer",
+      "dishwasher": "Dishwasher",
+      "parking": "Parking",
+      "gym": "Gym",
+      "pool": "Pool",
+      "furnished": "Furnished",
+      "balcony": "Balcony",
+      "elevator": "Elevator",
+      "security": "Security",
+      "pets_allowed": "Pets allowed"
+    }
   },
   "marketplace": {
     "title": "Marketplace",
@@ -218,7 +246,8 @@
     "listingsShort": "Listings",
     "productsShort": "Items",
     "favoritesShort": "Saved",
-    "verificationNone": "Not submitted"
+    "verificationNone": "Not submitted",
+    "favoritesEmptyDesc": "Nothing saved yet. Tap the heart on any listing to keep it here."
   },
   "admin": {
     "dashboard": "Dashboard",
@@ -251,5 +280,11 @@
     "housingDesc": "A room, studio, apartment or house",
     "marketTitle": "Sell an item",
     "marketDesc": "Furniture, electronics, books and more"
+  },
+  "role": {
+    "student": "Student",
+    "owner": "Owner",
+    "agency": "Agency",
+    "admin": "Admin"
   }
 }

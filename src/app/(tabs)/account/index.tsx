@@ -1,4 +1,5 @@
 import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -8,9 +9,8 @@ import { useMyListings } from '@/hooks/useProperties';
 import { useMyProducts } from '@/hooks/useProducts';
 import { useFavoriteCount } from '@/hooks/useFavorites';
 import { useMyVerification } from '@/hooks/useVerification';
-import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { VerifiedBadge } from '@/components/shared/VerifiedBadge';
-import { colors, spacing, radii, typography, shadow } from '@/theme';
+import { colors, spacing, radii, typography, shadow, tabBarMetrics } from '@/theme';
 
 type IconName = React.ComponentProps<typeof MaterialCommunityIcons>['name'];
 
@@ -93,13 +93,28 @@ export default function AccountScreen() {
   ];
 
   const memberSince = formatMemberSince(profile?.created_at);
+  const insets = useSafeAreaInsets();
 
   return (
     <View style={styles.container}>
-      <ScreenHeader title={t('account.title')} />
-
-      <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        {/* Identity hero */}
+      {/* No large "My Account" title: the identity block below is the
+          heading on this screen, so the name reads once, at the top. The
+          status bar inset is still reserved so the avatar never tucks
+          under the notch. */}
+      <ScrollView
+        contentContainerStyle={[
+          styles.scroll,
+          {
+            paddingTop: insets.top + spacing.md,
+            // The dock floats over the scroll view, so the last row (Log
+            // out) needs to clear it or it ends up half-hidden behind the
+            // bar.
+            paddingBottom: tabBarMetrics.totalHeight + insets.bottom + spacing.lg,
+          },
+        ]}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Identity hero, centered */}
         <View style={styles.hero}>
           {profile?.avatar_url ? (
             <Image
@@ -125,14 +140,16 @@ export default function AccountScreen() {
                 {user.email}
               </Text>
             ) : null}
-            <View style={styles.tagRow}>
-              {profile?.university ? (
-                <Text style={styles.tag} numberOfLines={1}>
-                  {profile.university}
-                </Text>
-              ) : null}
-              {isVerified ? <VerifiedBadge /> : null}
-            </View>
+            {profile?.university || isVerified ? (
+              <View style={styles.tagRow}>
+                {profile?.university ? (
+                  <Text style={styles.tag} numberOfLines={1}>
+                    {profile.university}
+                  </Text>
+                ) : null}
+                {isVerified ? <VerifiedBadge /> : null}
+              </View>
+            ) : null}
             {memberSince ? (
               <Text style={styles.memberSince}>
                 {t('account.memberSince')} {memberSince}
@@ -232,35 +249,49 @@ export default function AccountScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
-  scroll: { paddingHorizontal: spacing.lg, paddingBottom: spacing.xxxl },
+  scroll: { paddingHorizontal: spacing.lg },
 
-  // Hero
+  // Hero: stacked and centered. Avatar on top, then a centered block of
+  // name / email / university / member-since. `alignItems: 'center'` on
+  // the column plus `alignSelf: 'stretch'` on the text so long university
+  // names can ellipsize instead of stretching the layout.
   hero: {
-    flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: spacing.lg,
+    paddingBottom: spacing.xl,
   },
   avatar: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
+    width: 96,
+    height: 96,
+    borderRadius: 48,
     backgroundColor: colors.primaryLight,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: spacing.lg,
   },
-  avatarText: { fontSize: 28, fontWeight: '600', color: colors.text },
-  identity: { flex: 1 },
-  name: { ...typography.title, fontSize: 21 },
-  email: { ...typography.caption, marginTop: 1 },
+  avatarText: { fontSize: 36, fontWeight: '600', color: colors.text },
+  identity: {
+    alignItems: 'center',
+    marginTop: spacing.md,
+    // Reserve the full width so centered text is centred on the screen,
+    // not on the width of its longest line.
+    alignSelf: 'stretch',
+  },
+  name: { ...typography.title, fontSize: 21, textAlign: 'center' },
+  email: { ...typography.caption, marginTop: 2, textAlign: 'center' },
   tagRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
     gap: spacing.sm,
     marginTop: spacing.xs,
   },
-  tag: { ...typography.captionMuted, flexShrink: 1 },
-  memberSince: { ...typography.captionMuted, marginTop: spacing.xs, fontSize: 12 },
+  tag: { ...typography.captionMuted, flexShrink: 1, textAlign: 'center' },
+  memberSince: {
+    ...typography.captionMuted,
+    marginTop: spacing.xs,
+    fontSize: 12,
+    textAlign: 'center',
+  },
 
   // Stats
   statRow: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.xl },

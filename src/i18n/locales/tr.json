@@ -36,7 +36,9 @@
     "room_one": "{count} oda",
     "room_other": "{count} oda",
     "bath_one": "{count} banyo",
-    "bath_other": "{count} banyo"
+    "bath_other": "{count} banyo",
+    "seeAll": "Tümünü gör",
+    "close": "Kapat"
   },
   "nav": {
     "housing": "Konut",
@@ -129,7 +131,33 @@
     "noListings": "Henüz ilan yok",
     "noListingsDesc": "Başlamak için ilk ilanınızı oluşturun",
     "filterAll": "Tümü",
-    "filterAnywhere": "Her yerde"
+    "filterAnywhere": "Her yerde",
+    "discoverTitle": "Yeni evinizi keşfedin!",
+    "nearby": "Yakındaki İlanlar",
+    "allListings": "Tüm İlanlar",
+    "menuTitle": "Menü",
+    "bedrooms": "Yatak Odası",
+    "rent": "Kira",
+    "openInMaps": "Haritalar'da aç",
+    "agency": "Ajans",
+    "owner": "Sahip",
+    "removeFromSaved": "Kayıtlılardan çıkar",
+    "amenity": {
+      "wifi": "Wi-Fi",
+      "ac": "Klima",
+      "heating": "Isıtma",
+      "washer": "Çamaşır makinesi",
+      "dryer": "Kurutma makinesi",
+      "dishwasher": "Bulaşık makinesi",
+      "parking": "Otopark",
+      "gym": "Spor salonu",
+      "pool": "Havuz",
+      "furnished": "Mobilyalı",
+      "balcony": "Balkon",
+      "elevator": "Asansör",
+      "security": "Güvenlik",
+      "pets_allowed": "Evcil hayvanlara izin verilir"
+    }
   },
   "marketplace": {
     "title": "Pazar Yeri",
@@ -218,7 +246,8 @@
     "listingsShort": "İlanlar",
     "productsShort": "Ürünler",
     "favoritesShort": "Kayıtlı",
-    "verificationNone": "Gönderilmedi"
+    "verificationNone": "Gönderilmedi",
+    "favoritesEmptyDesc": "Henüz kaydedilen yok. Bir ilanda kalp simgesine dokunarak buraya ekleyin."
   },
   "admin": {
     "dashboard": "Gösterge Paneli",
@@ -251,5 +280,11 @@
     "housingDesc": "Oda, stüdyo, daire veya ev",
     "marketTitle": "Bir ürün sat",
     "marketDesc": "Mobilya, elektronik, kitap ve daha fazlası"
+  },
+  "role": {
+    "student": "Öğrenci",
+    "owner": "Sahip",
+    "agency": "Ajans",
+    "admin": "Yönetici"
   }
 }

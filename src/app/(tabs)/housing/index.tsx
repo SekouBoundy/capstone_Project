@@ -1,28 +1,42 @@
-import { View, Text, FlatList, RefreshControl, Pressable, StyleSheet } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  RefreshControl,
+  Pressable,
+  StyleSheet,
+} from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { Image } from 'expo-image';
 import { useProperties } from '@/hooks/useProperties';
 import { PropertyCard } from '@/components/housing/PropertyCard';
-import { ScreenHeader } from '@/components/ui/ScreenHeader';
+import { PropertyMiniCard } from '@/components/housing/PropertyMiniCard';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { MenuSheet } from '@/components/ui/MenuSheet';
 import { PropertyCardSkeleton } from '@/components/ui/Skeleton';
 import { useAuthStore } from '@/stores/authStore';
 import { PROPERTY_TYPES } from '@/lib/constants';
-import { colors, spacing, radii } from '@/theme';
-import type { HousingFilters } from '@/types/models';
+import { colors, spacing, radii, typography, tabBarMetrics } from '@/theme';
+import type { HousingFilters, Property } from '@/types/models';
 
 const SEARCH_DEBOUNCE_MS = 350;
+const NEARBY_COUNT = 8;
 
 type Chip = { value: string | null; label: string };
 
 export default function HousingScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const { profile } = useAuthStore();
   const [search, setSearch] = useState('');
   const [applied, setApplied] = useState<HousingFilters>({});
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const { data: properties, isLoading, isRefetching, refetch, isError, error } = useProperties(applied);
 
@@ -54,9 +68,70 @@ export default function HousingScreen() {
     })),
   ];
 
-  return (
-    <View style={styles.container}>
-      <ScreenHeader title={t('housing.title')} subtitle={t('housing.subtitle')} />
+  const openProperty = useCallback(
+    (property: Property) => router.push(`/housing/${property.id}`),
+    [router]
+  );
+
+  // The "Nearby" rail is a horizontal window onto the same result set, so
+  // it is skipped rather than duplicated when a filter is narrowing the
+  // feed down to the handful of places the grid is already showing.
+  const gridItems = properties ?? [];
+  const showNearby = gridItems.length > 3;
+  const nearby = showNearby ? gridItems.slice(0, NEARBY_COUNT) : [];
+
+  const renderHeader = () => (
+    <View>
+      <View style={[styles.topBar, { paddingTop: insets.top + spacing.md }]}>
+        <Pressable
+          onPress={() => setMenuOpen(true)}
+          hitSlop={10}
+          accessibilityRole="button"
+          accessibilityLabel={t('housing.menuTitle')}
+          style={styles.iconButton}
+        >
+          <MaterialCommunityIcons name="menu" size={24} color={colors.text} />
+        </Pressable>
+
+        <View style={styles.topBarRight}>
+          <Pressable
+            onPress={() => router.push('/messages')}
+            hitSlop={10}
+            accessibilityRole="button"
+            accessibilityLabel={t('nav.messages')}
+            style={styles.iconButton}
+          >
+            <MaterialCommunityIcons name="bell-outline" size={22} color={colors.text} />
+          </Pressable>
+
+          <Pressable
+            onPress={() => router.push('/account')}
+            hitSlop={8}
+            accessibilityRole="button"
+            accessibilityLabel={t('nav.account')}
+          >
+            {profile?.avatar_url ? (
+              <Image
+                source={{ uri: profile.avatar_url }}
+                style={styles.avatar}
+                contentFit="cover"
+                transition={200}
+              />
+            ) : (
+              <View style={[styles.avatar, styles.avatarFallback]}>
+                <Text style={styles.avatarInitial}>
+                  {(profile?.full_name?.[0] ?? '?').toUpperCase()}
+                </Text>
+              </View>
+            )}
+          </Pressable>
+        </View>
+      </View>
+
+      <View style={styles.headlineBlock}>
+        <Text style={styles.headline}>{t('housing.discoverTitle')}</Text>
+        <Text style={styles.subhead}>{t('housing.subtitle')}</Text>
+      </View>
 
       <View style={styles.searchRow}>
         <SearchBar
@@ -113,42 +188,59 @@ export default function HousingScreen() {
         />
       </View>
 
-      {isError ? (
-        <EmptyState
-          icon="wifi-off"
-          title={t('common.error')}
-          description={error instanceof Error ? error.message : undefined}
-          action={{ label: t('common.retry'), onPress: () => refetch() }}
-          style={styles.centered}
-        />
-      ) : isLoading ? (
-        <FlatList
-          data={[0, 1, 2]}
-          keyExtractor={(item) => String(item)}
-          renderItem={() => <PropertyCardSkeleton />}
-          contentContainerStyle={styles.list}
-          showsVerticalScrollIndicator={false}
-        />
-      ) : (
-        <FlatList
-          data={properties}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <PropertyCard
-              property={item}
-              onPress={() => router.push(`/housing/${item.id}`)}
+      {showNearby ? (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>{t('housing.nearby')}</Text>
+          <FlatList
+            horizontal
+            data={nearby}
+            keyExtractor={(item) => item.id}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.rail}
+            renderItem={({ item }) => (
+              <PropertyMiniCard property={item} onPress={() => openProperty(item)} />
+            )}
+          />
+        </View>
+      ) : null}
+
+      <Text style={styles.sectionTitle}>{t('housing.allListings')}</Text>
+    </View>
+  );
+
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={gridItems}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        renderItem={({ item }) => (
+          <PropertyCard property={item} onPress={() => openProperty(item)} />
+        )}
+        ListHeaderComponent={renderHeader}
+        contentContainerStyle={styles.list}
+        columnWrapperStyle={gridItems.length ? styles.column : undefined}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor={colors.primary} />
+        }
+        ListEmptyComponent={
+          isLoading ? (
+            <View style={styles.skeletonGrid}>
+              {[0, 1, 2, 3].map((i) => (
+                <View key={i} style={styles.skeletonCell}>
+                  <PropertyCardSkeleton />
+                </View>
+              ))}
+            </View>
+          ) : isError ? (
+            <EmptyState
+              icon="wifi-off"
+              title={t('common.error')}
+              description={error instanceof Error ? error.message : undefined}
+              action={{ label: t('common.retry'), onPress: () => refetch() }}
             />
-          )}
-          contentContainerStyle={properties?.length ? styles.list : styles.listEmpty}
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefetching}
-              onRefresh={refetch}
-              tintColor={colors.primary}
-            />
-          }
-          ListEmptyComponent={
+          ) : (
             <EmptyState
               icon="home-search-outline"
               title={t('common.noResults')}
@@ -158,35 +250,51 @@ export default function HousingScreen() {
                   ? { label: t('housing.createListing'), onPress: () => router.push('/housing/new') }
                   : undefined
               }
-              style={styles.centered}
             />
-          }
-        />
-      )}
+          )
+        }
+      />
+
+      <MenuSheet visible={menuOpen} onClose={() => setMenuOpen(false)} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  searchRow: {
-    paddingHorizontal: spacing.xxl,
-    paddingBottom: spacing.lg,
-  },
-  list: {
-    paddingHorizontal: spacing.xxl,
-    paddingBottom: spacing.xxxl,
-  },
-  listEmpty: {
-    flexGrow: 1,
-    paddingHorizontal: spacing.xxl,
-  },
+  container: { flex: 1, backgroundColor: colors.background },
 
-  chipRow: { marginBottom: spacing.md },
-  chipList: { paddingHorizontal: spacing.xxl, gap: spacing.sm },
+  list: {
+    paddingHorizontal: spacing.lg,
+    // The dock floats over the list, so the last row of the grid needs to
+    // clear it.
+    paddingBottom: tabBarMetrics.totalHeight + spacing.xxl,
+  },
+  // Gap between columns without a `gap` on the FlatList, which would also
+  // put horizontal gaps inside the header's own nested lists.
+  column: { gap: spacing.md },
+
+  topBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    // The tab navigator hides its own header, so this row is the first
+    // thing on screen and has to clear the notch itself. `ScreenHeader`
+    // used to do this; it is gone now that the headline moved inline.
+    paddingBottom: spacing.md,
+  },
+  topBarRight: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
+  iconButton: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
+  avatar: { width: 34, height: 34, borderRadius: 17, backgroundColor: colors.primaryLight },
+  avatarFallback: { alignItems: 'center', justifyContent: 'center' },
+  avatarInitial: { ...typography.caption, color: colors.text, fontWeight: '600' },
+
+  headlineBlock: { marginBottom: spacing.lg },
+  headline: { ...typography.display, fontSize: 28 },
+  subhead: { ...typography.caption, marginTop: spacing.xs },
+
+  searchRow: { marginBottom: spacing.md },
+  chipRow: { marginBottom: spacing.xl },
+  chipList: { gap: spacing.sm },
   chip: {
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.sm,
@@ -195,12 +303,18 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     backgroundColor: colors.surface,
   },
-  chipSelected: {
-    backgroundColor: colors.text,
-    borderColor: colors.text,
-  },
+  chipSelected: { backgroundColor: colors.text, borderColor: colors.text },
   chipPressed: { opacity: 0.6 },
   chipLabel: { fontSize: 14, color: colors.text, fontWeight: '500' },
   chipLabelSelected: { color: colors.textInverse, fontWeight: '600' },
-  centered: { flex: 1, justifyContent: 'center' },
+
+  section: { marginBottom: spacing.xl },
+  sectionTitle: {
+    ...typography.heading,
+    marginBottom: spacing.md,
+  },
+  rail: { gap: spacing.md, paddingRight: spacing.lg },
+
+  skeletonGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
+  skeletonCell: { width: '47%' },
 });
