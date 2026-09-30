@@ -17,14 +17,8 @@ panel reads the **repository root `.env`** and reuses the app's
 `EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_ANON_KEY` variables. If you
 have not set those up yet, copy `.env.example` to `.env` at the root.
 
-```bash
-npm run build      # typecheck + production bundle into dist/
-npm run preview    # serve the built bundle
-```
-
-`dist/` is a static bundle — any static host works. When deploying, serve it
-with a SPA fallback (rewrite unknown paths to `index.html`), because the router
-uses real URLs like `/users`.
+cd /Users/boundy/Desktop/Code/capstone_Project/admin-web
+npm run dev
 
 ## Signing in
 
