@@ -2,12 +2,14 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator }
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useMyProducts } from '@/hooks/useProducts';
+import { useTabBarClearance } from '@/hooks/useTabBarClearance';
 import { ProductCard } from '@/components/marketplace/ProductCard';
 
 export default function MyProducts() {
   const router = useRouter();
   const { t } = useTranslation();
   const { data: products, isLoading } = useMyProducts();
+  const clearance = useTabBarClearance();
 
   if (isLoading) {
     return (
@@ -36,7 +38,7 @@ export default function MyProducts() {
           />
         )}
         numColumns={2}
-        contentContainerStyle={styles.list}
+        contentContainerStyle={[styles.list, { paddingBottom: clearance }]}
         columnWrapperStyle={styles.column}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>

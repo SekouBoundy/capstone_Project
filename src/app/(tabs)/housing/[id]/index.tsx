@@ -21,6 +21,7 @@ import { useStartConversation } from '@/hooks/useConversations';
 import { useAuthStore } from '@/stores/authStore';
 import { ImageCarousel } from '@/components/housing/ImageCarousel';
 import { FavoriteButton } from '@/components/housing/FavoriteButton';
+import { LocationMap } from '@/components/housing/LocationMap';
 import { PropertyDetailGrid, type DetailItem } from '@/components/housing/PropertyDetailGrid';
 import { VerifiedBadge } from '@/components/shared/VerifiedBadge';
 import { formatPrice } from '@/lib/format';
@@ -302,25 +303,15 @@ export default function PropertyDetails() {
 
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>{t('housing.location')}</Text>
-            <View style={styles.mapCard}>
-              <View style={styles.mapArt}>
-                <MaterialCommunityIcons
-                  name="map-marker-outline"
-                  size={30}
-                  color={colors.textMuted}
-                />
-              </View>
-              <View style={styles.mapInfo}>
-                <Text style={styles.mapAddress} numberOfLines={2}>
-                  {[property.address, property.city].filter(Boolean).join(', ')}
-                </Text>
-                {property.latitude && property.longitude ? (
-                  <Text style={styles.mapCoords}>
-                    {property.latitude.toFixed(4)}, {property.longitude.toFixed(4)}
-                  </Text>
-                ) : null}
-              </View>
-            </View>
+
+            <LocationMap
+              latitude={property.latitude}
+              longitude={property.longitude}
+              city={property.city}
+              address={property.address}
+              title={property.title}
+            />
+
             <Pressable
               onPress={handleOpenMap}
               accessibilityRole="button"
@@ -553,29 +544,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  // A schematic stand-in for an embedded map, not a map. Tapping the card
-  // opens the platform maps app, which is why it looks like a destination
-  // rather than a broken tile.
-  mapCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    padding: spacing.md,
-    borderRadius: radii.lg,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  mapArt: {
-    width: 56,
-    height: 56,
-    borderRadius: radii.md,
-    backgroundColor: colors.surfaceMuted,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  mapInfo: { flex: 1 },
-  mapAddress: { ...typography.caption, color: colors.text },
-  mapCoords: { ...typography.label, color: colors.textMuted, marginTop: 2 },
+  // Secondary to the embedded map above it: the button is for turn-by-turn
+  // navigation, which the in-app map deliberately does not do.
   mapButton: {
     flexDirection: 'row',
     alignItems: 'center',

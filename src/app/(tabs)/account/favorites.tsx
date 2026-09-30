@@ -4,15 +4,17 @@ import { useTranslation } from 'react-i18next';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Image } from 'expo-image';
 import { useSavedListings, type SavedItem } from '@/hooks/useFavorites';
+import { useTabBarClearance } from '@/hooks/useTabBarClearance';
 import { FavoriteButton } from '@/components/housing/FavoriteButton';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { formatPrice } from '@/lib/format';
-import { colors, spacing, radii, typography, shadow, tabBarMetrics } from '@/theme';
+import { colors, spacing, radii, typography, shadow } from '@/theme';
 
 export default function Favorites() {
   const router = useRouter();
   const { t } = useTranslation();
   const { data: items, isLoading } = useSavedListings();
+  const clearance = useTabBarClearance();
 
   const open = (item: SavedItem) => {
     if (item.kind === 'property') router.push(`/housing/${item.property.id}`);
@@ -24,7 +26,7 @@ export default function Favorites() {
       <FlatList
         data={items ?? []}
         keyExtractor={(item) => (item.kind === 'property' ? `p-${item.property.id}` : `i-${item.product.id}`)}
-        contentContainerStyle={styles.list}
+        contentContainerStyle={[styles.list, { paddingBottom: clearance }]}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => <SavedRow item={item} onPress={() => open(item)} />}
         ListHeaderComponent={
@@ -113,7 +115,6 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   list: {
     paddingHorizontal: spacing.lg,
-    paddingBottom: tabBarMetrics.totalHeight + spacing.xxl,
   },
   back: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center', marginLeft: -8 },
   row: {

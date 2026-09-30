@@ -157,7 +157,9 @@
       "elevator": "Asansör",
       "security": "Güvenlik",
       "pets_allowed": "Evcil hayvanlara izin verilir"
-    }
+    },
+    "approximateLocation": "Şehir gösteriliyor — bu ilanda henüz tam konum yok.",
+    "noLocation": "Bu ilan için konum belirtilmemiş."
   },
   "marketplace": {
     "title": "Pazar Yeri",

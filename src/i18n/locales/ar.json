@@ -165,7 +165,9 @@
       "elevator": "مصعد",
       "security": "أمن",
       "pets_allowed": "يسمح بالحيوانات الأليفة"
-    }
+    },
+    "approximateLocation": "يتم عرض المدينة — لا يوجد موقع دقيق لهذا الإعلان بعد.",
+    "noLocation": "لم يتم توفير موقع لهذا الإعلان."
   },
   "marketplace": {
     "title": "السوق",

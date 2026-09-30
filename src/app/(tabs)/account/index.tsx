@@ -9,8 +9,9 @@ import { useMyListings } from '@/hooks/useProperties';
 import { useMyProducts } from '@/hooks/useProducts';
 import { useFavoriteCount } from '@/hooks/useFavorites';
 import { useMyVerification } from '@/hooks/useVerification';
+import { useTabBarClearance } from '@/hooks/useTabBarClearance';
 import { VerifiedBadge } from '@/components/shared/VerifiedBadge';
-import { colors, spacing, radii, typography, shadow, tabBarMetrics } from '@/theme';
+import { colors, spacing, radii, typography, shadow } from '@/theme';
 
 type IconName = React.ComponentProps<typeof MaterialCommunityIcons>['name'];
 
@@ -94,6 +95,7 @@ export default function AccountScreen() {
 
   const memberSince = formatMemberSince(profile?.created_at);
   const insets = useSafeAreaInsets();
+  const clearance = useTabBarClearance();
 
   return (
     <View style={styles.container}>
@@ -107,9 +109,8 @@ export default function AccountScreen() {
           {
             paddingTop: insets.top + spacing.md,
             // The dock floats over the scroll view, so the last row (Log
-            // out) needs to clear it or it ends up half-hidden behind the
-            // bar.
-            paddingBottom: tabBarMetrics.totalHeight + insets.bottom + spacing.lg,
+            // out) needs to clear it or it ends up behind the bar.
+            paddingBottom: clearance,
           },
         ]}
         showsVerticalScrollIndicator={false}

@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Image } from 'expo-image';
 import { useProperties } from '@/hooks/useProperties';
+import { useTabBarClearance } from '@/hooks/useTabBarClearance';
 import { PropertyCard } from '@/components/housing/PropertyCard';
 import { PropertyMiniCard } from '@/components/housing/PropertyMiniCard';
 import { SearchBar } from '@/components/ui/SearchBar';
@@ -21,7 +22,7 @@ import { MenuSheet } from '@/components/ui/MenuSheet';
 import { PropertyCardSkeleton } from '@/components/ui/Skeleton';
 import { useAuthStore } from '@/stores/authStore';
 import { PROPERTY_TYPES } from '@/lib/constants';
-import { colors, spacing, radii, typography, tabBarMetrics } from '@/theme';
+import { colors, spacing, radii, typography } from '@/theme';
 import type { HousingFilters, Property } from '@/types/models';
 
 const SEARCH_DEBOUNCE_MS = 350;
@@ -32,6 +33,7 @@ type Chip = { value: string | null; label: string };
 export default function HousingScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const clearance = useTabBarClearance();
   const { t } = useTranslation();
   const { profile } = useAuthStore();
   const [search, setSearch] = useState('');
@@ -218,7 +220,7 @@ export default function HousingScreen() {
           <PropertyCard property={item} onPress={() => openProperty(item)} />
         )}
         ListHeaderComponent={renderHeader}
-        contentContainerStyle={styles.list}
+        contentContainerStyle={[styles.list, { paddingBottom: clearance }]}
         columnWrapperStyle={gridItems.length ? styles.column : undefined}
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -265,9 +267,6 @@ const styles = StyleSheet.create({
 
   list: {
     paddingHorizontal: spacing.lg,
-    // The dock floats over the list, so the last row of the grid needs to
-    // clear it.
-    paddingBottom: tabBarMetrics.totalHeight + spacing.xxl,
   },
   // Gap between columns without a `gap` on the FlatList, which would also
   // put horizontal gaps inside the header's own nested lists.

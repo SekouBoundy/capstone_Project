@@ -9,7 +9,7 @@ import { useConversation } from '@/hooks/useConversations';
 import { useRealtimeMessages } from '@/hooks/useRealtime';
 import { useAuthStore } from '@/stores/authStore';
 import { Message } from '@/types/models';
-import { colors, spacing, radii, typography } from '@/theme';
+import { colors, spacing, radii, typography, tabBarMetrics } from '@/theme';
 
 function formatTime(iso: string) {
   return new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -155,7 +155,18 @@ export default function ChatScreen() {
         />
       )}
 
-      <View style={[styles.composer, { paddingBottom: insets.bottom + spacing.sm }]}>
+      <View
+        style={[
+          styles.composer,
+          {
+            paddingBottom: insets.bottom + spacing.sm,
+            // Lifts the composer clear of the floating dock. Without this
+            // the dock sits on top of the send button, because the composer
+            // is the last element in the column.
+            marginBottom: tabBarMetrics.totalHeight,
+          },
+        ]}
+      >
         <TextInput
           style={styles.input}
           value={draft}

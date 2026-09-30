@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { useProducts } from '@/hooks/useProducts';
+import { useTabBarClearance } from '@/hooks/useTabBarClearance';
 import { ProductCard } from '@/components/marketplace/ProductCard';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { SearchBar } from '@/components/ui/SearchBar';
@@ -18,6 +19,7 @@ export default function MarketplaceScreen() {
   const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [applied, setApplied] = useState<MarketplaceFilters>({});
+  const clearance = useTabBarClearance();
 
   const { data: products, isLoading, isRefetching, refetch, isError, error } = useProducts(applied);
 
@@ -83,7 +85,12 @@ export default function MarketplaceScreen() {
             />
           )}
           numColumns={2}
-          contentContainerStyle={products?.length ? styles.list : styles.listEmpty}
+          contentContainerStyle={[
+            products?.length ? styles.list : styles.listEmpty,
+            // The dock floats over the feed, so the last row needs padding
+            // to clear it.
+            products?.length ? { paddingBottom: clearance } : null,
+          ]}
           columnWrapperStyle={styles.column}
           showsVerticalScrollIndicator={false}
           refreshControl={

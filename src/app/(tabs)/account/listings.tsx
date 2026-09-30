@@ -2,12 +2,14 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator }
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useMyListings } from '@/hooks/useProperties';
+import { useTabBarClearance } from '@/hooks/useTabBarClearance';
 import { PropertyCard } from '@/components/housing/PropertyCard';
 
 export default function MyListings() {
   const router = useRouter();
   const { t } = useTranslation();
   const { data: listings, isLoading } = useMyListings();
+  const clearance = useTabBarClearance();
 
   if (isLoading) {
     return (
@@ -35,7 +37,7 @@ export default function MyListings() {
             onPress={() => router.push(`/housing/${item.id}`)}
           />
         )}
-        contentContainerStyle={styles.list}
+        contentContainerStyle={[styles.list, { paddingBottom: clearance }]}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>{t('housing.noListings')}</Text>

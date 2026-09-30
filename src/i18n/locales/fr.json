@@ -157,7 +157,9 @@
       "elevator": "Ascenseur",
       "security": "Sécurité",
       "pets_allowed": "Animaux acceptés"
-    }
+    },
+    "approximateLocation": "Ville affichée — cette annonce n'a pas encore de point exact.",
+    "noLocation": "Aucune localisation fournie pour cette annonce."
   },
   "marketplace": {
     "title": "Marketplace",

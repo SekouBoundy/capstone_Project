@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Image } from 'expo-image';
+import { LinearGradient } from 'expo-linear-gradient';
 import type { PropertyImage } from '@/types/models';
 import { colors, spacing, radii, typography } from '@/theme';
 
@@ -100,9 +101,14 @@ export function ImageCarousel({
       {topRight ? <View style={styles.topRight}>{topRight}</View> : null}
 
       {bottomLeft ? (
-        <View style={styles.bottomBar}>
-          <View style={styles.bottomScrim} pointerEvents="none" />
-          {bottomLeft}
+        <View style={styles.bottomBar} pointerEvents="box-none">
+          <LinearGradient
+            colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.30)', 'rgba(0,0,0,0.72)']}
+            locations={[0, 0.5, 1]}
+            pointerEvents="none"
+            style={styles.bottomScrim}
+          />
+          <View pointerEvents="box-none">{bottomLeft}</View>
         </View>
       ) : null}
 
@@ -135,12 +141,20 @@ const styles = StyleSheet.create({
   topLeft: { position: 'absolute', top: spacing.lg, left: spacing.lg },
   topRight: { position: 'absolute', top: spacing.lg, right: spacing.lg },
 
-  // Solid scrim rather than a gradient: `expo-linear-gradient` is not
-  // installed, and a flat band matches what the listing cards already do.
+  // Gradient rather than a flat band: the price sits on the photo, and a
+  // hard-edged scrim leaves a visible line across the picture. A fade also
+  // keeps the middle of the frame clean.
   bottomBar: { position: 'absolute', left: 0, right: 0, bottom: 0 },
+  // Taller than `bottomBar` on purpose. The bar hugs its content (the price
+  // block), so a scrim sized to it would be ~56pt and the fade would start
+  // right at the text. It is allowed to overflow upwards; `bottomBar` does
+  // not clip.
   bottomScrim: {
-    height: 130,
-    backgroundColor: 'rgba(0,0,0,0.32)',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: 160,
   },
 
   indicator: {

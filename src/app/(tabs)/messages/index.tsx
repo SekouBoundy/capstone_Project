@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useConversations } from '@/hooks/useConversations';
+import { useTabBarClearance } from '@/hooks/useTabBarClearance';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Skeleton } from '@/components/ui/Skeleton';
@@ -33,6 +34,7 @@ function ConversationRowSkeleton() {
 export default function MessagesScreen() {
   const router = useRouter();
   const { t } = useTranslation();
+  const clearance = useTabBarClearance();
   const { data: conversations, isLoading, isRefetching, refetch, isError, error } =
     useConversations();
 
@@ -116,7 +118,12 @@ export default function MessagesScreen() {
               </Pressable>
             );
           }}
-          contentContainerStyle={conversations?.length ? styles.list : styles.listEmpty}
+          contentContainerStyle={[
+            conversations?.length ? styles.list : styles.listEmpty,
+            // The dock floats over the list, so the last row has to be
+            // padded clear of it.
+            conversations?.length ? { paddingBottom: clearance } : null,
+          ]}
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor={colors.primary} />

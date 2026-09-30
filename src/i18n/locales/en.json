@@ -157,7 +157,9 @@
       "elevator": "Elevator",
       "security": "Security",
       "pets_allowed": "Pets allowed"
-    }
+    },
+    "approximateLocation": "Showing the city — this listing has no exact pin yet.",
+    "noLocation": "No location provided for this listing."
   },
   "marketplace": {
     "title": "Marketplace",

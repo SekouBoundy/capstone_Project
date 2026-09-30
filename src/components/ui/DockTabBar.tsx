@@ -3,6 +3,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { LinearGradient } from 'expo-linear-gradient';
 import type { BottomTabBarProps } from 'expo-router/js-tabs';
 import { colors, radii, spacing, shadow, tabBarMetrics } from '@/theme';
 
@@ -103,7 +104,25 @@ export function DockTabBar({ state, descriptors, navigation }: BottomTabBarProps
   };
 
   return (
-    <View style={[styles.wrapper, { paddingBottom: insets.bottom + tabBarMetrics.marginBottom }]}>
+    <View
+      style={[
+        styles.wrapper,
+        { paddingBottom: insets.bottom + tabBarMetrics.marginBottom },
+      ]}
+      pointerEvents="box-none"
+    >
+      {/* Scrim under the bar. The bar is absolutely positioned so content
+          scrolls beneath it, and without this the list would be visible
+          through the gap between the pill and the screen edge. Fades to the
+          app background rather than a hard plate, so there is no visible
+          seam at the bottom of the screen. */}
+      <LinearGradient
+        colors={['rgba(255,255,255,0)', 'rgba(255,255,255,0.92)', 'rgba(255,255,255,1)']}
+        locations={[0, 0.55, 1]}
+        pointerEvents="none"
+        style={styles.scrim}
+      />
+
       <View style={[styles.bar, shadow.raised]}>
         {left.map(renderTab)}
 
@@ -136,11 +155,35 @@ export function DockTabBar({ state, descriptors, navigation }: BottomTabBarProps
 }
 
 const styles = StyleSheet.create({
+  // `position: 'absolute'` is what makes this a floating dock rather than a
+  // row in the navigator's flex column. The tab navigator renders
+  // `screens` (flex: 1) followed by this bar, so in normal flow the bar
+  // stole height from every screen and content was clipped at the seam
+  // instead of scrolling under. `tabBarStyle` cannot express this: with a
+  // custom `tabBar` render prop it is only read for height maths, so the
+  // positioning has to live here.
   wrapper: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    // Above the scene container, which is unpositioned.
+    zIndex: 10,
     paddingHorizontal: tabBarMetrics.marginHorizontal,
-    backgroundColor: colors.background,
+  },
+  scrim: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: -spacing.xxl,
   },
   bar: {
+    // Above the scrim: the scrim is absolutely positioned, and a positioned
+    // box paints over an in-flow one, so without this the fade would sit on
+    // top of the pill itself.
+    position: 'relative',
+    zIndex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     height: tabBarMetrics.barHeight,
